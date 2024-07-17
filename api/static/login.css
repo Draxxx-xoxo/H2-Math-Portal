@@ -1,0 +1,56 @@
+/* login.css (For Play CDN) */
+body {
+    background-color: black; /* Black background */
+    color: white;          /* White text */
+    min-height: 100vh;     /* Ensure background covers full viewport height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  form {
+    background-color: #1f2937; /* Darker gray background for form */
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    width: 100%;
+    max-width: 32rem; 
+  }
+  
+  label {
+    display: block;
+    font-size: 0.875rem; /* 14px */
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  input[type="email"],
+  input[type="password"] {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 0.25rem;
+    width: 100%;
+    padding: 0.75rem 1rem; 
+    margin-bottom: 1rem;
+    color: #374151; /* Darker gray text for input fields */
+  }
+  
+  button[type="submit"] {
+    background-color: #3b82f6; /* Blue button background */
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease; /* Add hover transition */
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #2563eb; /* Darker blue on hover */
+  }
+  
+  a {
+    color: #3b82f6;  /* Blue link color */
+    text-decoration: underline;
+  }
+  

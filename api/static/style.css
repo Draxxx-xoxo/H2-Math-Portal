@@ -1,0 +1,118 @@
+body {
+    font-family: "Segoe UI", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    background: linear-gradient(to right, teal, black);
+    color: white;
+    margin-top: 0px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.banner {
+    width: 100%;
+    text-align: center;
+    background-color: rgb(50, 50, 50);
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+}
+
+#main-page-header {
+    background-color: orange;
+    color: black;
+    font-size: 50px;
+    font-weight: bold;
+    padding: 2px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.button {
+    background-color: teal;
+    font-weight: bold;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: gold;
+    color: black;
+    font-weight: bolder;
+}
+
+form {
+    margin: 20px auto;
+    max-width: 500px;
+    padding: 20px;
+    border: 1px solid teal;
+    border-radius: 5px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+form input[type="text"],
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+form input[type="submit"] {
+    background-color: teal;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+    background-color: orange;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+table th {
+    background-color: teal;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
