@@ -11,6 +11,9 @@
         {% if 'user' in session %}
             <p>You are logged in as {{ session['user'] }}</p>
             <a href="/signout" class="text-blue-500 hover:text-blue-700">Sign Out</a>
+            <form method="POST" action="/create-customer-portal-session">
+                <button class="text-blue-500 hover:text-blue-700" type="submit">Manage billing</button>
+              </form>
         {% else %}
             <p>You are not logged in.</p>
             <a href="/login" class="text-blue-500 hover:text-blue-700">Login</a> | 
