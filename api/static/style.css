@@ -1,118 +1,94 @@
 body {
-    font-family: "Segoe UI", sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-h1 {
-    background: linear-gradient(to right, teal, black);
-    color: white;
-    margin-top: 0px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-.banner {
-    width: 100%;
-    text-align: center;
-    background-color: rgb(50, 50, 50);
-}
-
-.banner img {
-    width: 100%;
-    height: auto;
-}
-
-#main-page-header {
-    background-color: orange;
-    color: black;
-    font-size: 50px;
-    font-weight: bold;
-    padding: 2px;
-}
-
-.buttons {
+    background-color: black; /* Black background */
+    color: white;          /* White text */
+    min-height: 100vh;     /* Ensure background covers full viewport height */
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    padding: 20px;
-}
-
-.button {
-    background-color: teal;
-    font-weight: bold;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    transition-duration: 0.4s;
-    cursor: pointer;
-}
-
-.button:hover {
-    background-color: gold;
-    color: black;
-    font-weight: bolder;
-}
-
+  }
+  
 form {
-    margin: 20px auto;
-    max-width: 500px;
-    padding: 20px;
-    border: 1px solid teal;
-    border-radius: 5px;
-}
-
-form label {
+    background-color: #1f2937; /* Darker gray background for form */
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    width: 100%;
+    max-width: 32rem; 
+  }
+  
+label {
     display: block;
-    margin-bottom: 10px;
-}
-
-form input[type="text"],
-form select {
+    font-size: 0.875rem; /* 14px */
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  input[type="email"],
+  input[type="password"] {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 0.25rem;
     width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-form input[type="submit"] {
-    background-color: teal;
+    padding: 0.75rem 1rem; 
+    margin-bottom: 1rem;
+    color: #374151; /* Darker gray text for input fields */
+  }
+  
+  button[type="submit"] {
+    background-color: #3b82f6; /* Blue button background */
     color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.25rem;
     cursor: pointer;
+    transition: background-color 0.2s ease; /* Add hover transition */
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #2563eb; /* Darker blue on hover */
+  }
+  
+  a {
+    color: #3b82f6;  /* Blue link color */
+    text-decoration: underline;
+  }
+
+  .table-container {
+    width: 90%;
+    max-width: 1200px;
 }
 
-form input[type="submit"]:hover {
-    background-color: orange;
-}
-
-table {
+.table {
+    background-color: #1f2937; /* Dark gray background for table */
+    color: white; /* White text for table content */
+    border-collapse: collapse; /* Collapse borders */
     width: 100%;
-    border-collapse: collapse;
 }
 
-table th, table td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    text-align: left;
+.table th, .table td {
+    padding: 12px 15px;
+    border: 1px solid #374151; /* Slightly lighter border */
 }
 
-table th {
-    background-color: teal;
-    color: white;
+.table th {
+    background-color: #111827; /* Darker background for headers */
 }
 
-table tr:nth-child(even) {
-    background-color: #f2f2f2;
+.table tr:nth-child(even) {
+    background-color: #374151; /* Alternating row color */
 }
 
-table tr:hover {
-    background-color: #ddd;
+.table tr:hover {
+    background-color: #4b5563; /* Highlight on hover */
 }
+
+#home_button{
+  text-decoration: none;
+}
+
+nav a{
+  color: white;
+  text-decoration: none;
+}
+
+  

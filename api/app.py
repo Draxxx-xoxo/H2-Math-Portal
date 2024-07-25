@@ -40,42 +40,6 @@ def authorization_required(f):
 def home():
     return render_template('home.html')
 
-@app.route('/pricing')
-def pricing():
-    return render_template('stripe_pt.html', email=session['user'] )
-
-
-@app.route('/create-customer-portal-session', methods=['POST'])
-def customer_portal():
-    try:
-        response = requests.get(
-            'https://api.stripe.com/v1/customers',
-            params={'email': session['user']},
-            headers={'Authorization': f'Bearer {os.environ.get("STIPE_API_KEY")}'}
-        )
-
-        if response.status_code == 200:
-            results = response.json()
-
-            if 'data' in results and len(results['data']) > 0:
-                customer_id = results['data'][0]['id']
-
-                portal_session = stripe.billing_portal.Session.create(
-                    customer=customer_id,
-                    return_url="https://supabase-flask.vercel.app/dashboard",
-                )
-
-                return redirect(portal_session.url)
-
-            else:
-                return jsonify({'error': 'No customer found with the provided email'}), 404
-
-        else:
-            return jsonify({'error': 'Failed to retrieve customer data from Stripe'}), response.status_code
-
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-    
 
 @app.errorhandler(404) 
 def not_found(e): 

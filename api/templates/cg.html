@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Student Table</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}"> 
-</head>
+{% include 'partials/header.html' %}
 <body class="bg-black text-white min-h-screen flex flex-col items-center justify-center">
+    {% include 'partials/nav.html' %}
     <div class="table-container mx-auto my-8">
         <table class="table min-w-full bg-gray-800 border border-gray-700">
             <thead>
@@ -28,6 +23,5 @@
             </tbody>
         </table>
     </div>
-</body>
-</html>
+{% include 'partials/footer.html' %}
 

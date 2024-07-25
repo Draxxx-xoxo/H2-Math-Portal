@@ -34,6 +34,10 @@ def login():
         
         except Exception as e:
             flash(f"Login error: {e}", "error")
+
+    if 'user' in session:
+        return redirect('/dashboard')
+    
     return render_template('login.html')
 
 

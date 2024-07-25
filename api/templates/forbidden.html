@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Home</title>
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}"> 
-    </head>
+{% include 'partials/header.html' %}
     <body>
         <div>
+            {% include 'partials/nav.html' %}
             <h1>Forbidden</h1>
             <p>You are not authorized to view this page.</p>
         </div>
-    </body>
-</html>
+{% include 'partials/footer.html' %}
