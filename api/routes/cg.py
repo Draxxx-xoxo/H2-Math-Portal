@@ -6,7 +6,7 @@ from supabase import create_client, Client
 from datetime import datetime
 from functools import wraps  # Import wraps decorator
 
-dashboard = Blueprint('dashboard', __name__,
+cg = Blueprint('cg', __name__,
                         template_folder='templates')
 
 
@@ -28,13 +28,14 @@ key: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 supabase: Client = create_client(url, key)
 
 
-@dashboard.route('/dashboard')
+@cg.route('/<cg>')
 @authorization_required 
-def dashboard_route():
-    email = session['user']
-    response = supabase.table("students").select("cg, email").eq("email", session['user']).execute()
-    cg = (response.data[0]['cg'])
-    cg_link = cg.replace("/", "_")
-    return render_template("dashboard.html", cg=cg, cg_link=cg_link)
+def dashboard_route(cg):
+
+    cg = cg.replace("_", "/")
+    response = supabase.table("students").select("*").eq("cg", cg).execute()
+    students = response.data   
+
+    return render_template("cg.html", students=students)
 
 

@@ -20,22 +20,6 @@ def authorization_required(f):
 auth = Blueprint('auth', __name__,
                         template_folder='templates')
 
-@auth.route('/signup', methods=['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-
-        try:
-            user = app.config['supabase'].auth.sign_up(credentials={"email": email, "password": password})
-            flash("Signup successful. Please check your email for verification.", "success")
-            return redirect('/login')  
-        except Exception as e:
-            flash(f"Signup error: {e}", "error")
-
-    return render_template('signup.html')
-
-
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':

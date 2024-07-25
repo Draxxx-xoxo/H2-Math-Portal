@@ -9,7 +9,7 @@ body {
     justify-content: center;
   }
   
-  form {
+form {
     background-color: #1f2937; /* Darker gray background for form */
     padding: 2rem;
     border-radius: 0.5rem;
@@ -18,7 +18,7 @@ body {
     max-width: 32rem; 
   }
   
-  label {
+label {
     display: block;
     font-size: 0.875rem; /* 14px */
     font-weight: 600;
@@ -53,4 +53,33 @@ body {
     color: #3b82f6;  /* Blue link color */
     text-decoration: underline;
   }
+
+  .table-container {
+    width: 90%;
+    max-width: 1200px;
+}
+
+.table {
+    background-color: #1f2937; /* Dark gray background for table */
+    color: white; /* White text for table content */
+    border-collapse: collapse; /* Collapse borders */
+    width: 100%;
+}
+
+.table th, .table td {
+    padding: 12px 15px;
+    border: 1px solid #374151; /* Slightly lighter border */
+}
+
+.table th {
+    background-color: #111827; /* Darker background for headers */
+}
+
+.table tr:nth-child(even) {
+    background-color: #374151; /* Alternating row color */
+}
+
+.table tr:hover {
+    background-color: #4b5563; /* Highlight on hover */
+}
   

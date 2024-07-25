@@ -1,14 +1,12 @@
 from flask import Flask, redirect, render_template, session, url_for, flash, jsonify
-import csv
-import json
 import os
 import requests
-from requests.auth import HTTPBasicAuth
 from datetime import datetime
 from supabase import create_client, Client
 from functools import wraps  # Import wraps decorator
 from api.routes.dashboard import dashboard
 from api.routes.auth import auth
+from api.routes.cg import cg
 import stripe
 stripe.api_key = os.environ.get("STIPE_API_KEY")
 
@@ -16,6 +14,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(12)
 app.register_blueprint(dashboard)
 app.register_blueprint(auth)
+app.register_blueprint(cg, url_prefix='/cg')
 
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
@@ -39,17 +38,15 @@ def authorization_required(f):
 
 @app.route('/')
 def home():
-    return render_template('dashboard.html')
+    return render_template('home.html')
 
 @app.route('/pricing')
 def pricing():
-    print(session['user'])
     return render_template('stripe_pt.html', email=session['user'] )
 
 
 @app.route('/create-customer-portal-session', methods=['POST'])
 def customer_portal():
-
     try:
         response = requests.get(
             'https://api.stripe.com/v1/customers',
