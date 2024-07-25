@@ -9,27 +9,33 @@ from functools import wraps  # Import wraps decorator
 cg = Blueprint('cg', __name__,
                         template_folder='templates')
 
-
-def is_authorized():
-    if 'user' not in session:
-        return False
-    return True
-
-def authorization_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if not is_authorized():
-            return redirect('/login')  # Redirect to login if not authorized
-        return f(*args, **kwargs)  # Allow access to the route
-    return decorated_function
-
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 supabase: Client = create_client(url, key)
 
 
+def authorization_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        cg = str(kwargs.get('cg')).replace("_", "/")
+
+        try:
+            email = session['user']
+        except:
+            email = None
+            
+        response = supabase.table("students").select("cg, email").eq("email", email).eq("cg", cg).execute()
+
+        if 'user' not in session:
+            return redirect('/login')
+        elif len(response.data) == 0:
+            return render_template("forbidden.html")
+        return f(*args, **kwargs)  # Allow access to the route
+    return decorated_function
+
+
 @cg.route('/<cg>')
-@authorization_required 
+@authorization_required
 def dashboard_route(cg):
 
     cg = cg.replace("_", "/")
