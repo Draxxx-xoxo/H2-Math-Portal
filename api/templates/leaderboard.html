@@ -1,0 +1,26 @@
+{% include 'partials/header.html' %}
+<body>
+    {% include 'partials/nav.html' %}
+    <div class="table-container mx-auto my-8">
+        <table class="table min-w-full bg-gray-800 border border-gray-700">
+            <thead>
+                <tr class="bg-gray-900">
+                    <th class="px-4 py-2 border-b border-gray-700">Name</th>
+                    <th class="px-4 py-2 border-b border-gray-700">Civic Group</th>
+                    <th class="px-4 py-2 border-b border-gray-700">Points</th>
+                    <th class="px-4 py-2 border-b border-gray-700">Last Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr class="hover:bg-gray-700">
+                    <td class="px-4 py-2 border-b border-gray-600">{{ student["name"] }}</td>
+                    <td class="px-4 py-2 border-b border-gray-600">{{ student["cg"] }}</td>
+                    <td class="px-4 py-2 border-b border-gray-600">{{ student["points"] }}</td>
+                    <td class="px-4 py-2 border-b border-gray-600">{{ student["updated_at"] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% include 'partials/footer.html' %}

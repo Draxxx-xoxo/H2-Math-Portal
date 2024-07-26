@@ -7,14 +7,16 @@ from functools import wraps  # Import wraps decorator
 from api.routes.dashboard import dashboard
 from api.routes.auth import auth
 from api.routes.cg import cg
-import stripe
-stripe.api_key = os.environ.get("STIPE_API_KEY")
+from api.routes.leaderboard import leaderboard
+from api.routes.quiz import quiz
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
 app.register_blueprint(dashboard)
 app.register_blueprint(auth)
 app.register_blueprint(cg, url_prefix='/cg')
+app.register_blueprint(leaderboard)
+app.register_blueprint(quiz)
 
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
