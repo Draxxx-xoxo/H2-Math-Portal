@@ -1,7 +1,7 @@
 body {
-    background-color: black; /* Black background */
-    color: white;          /* White text */
-    min-height: 100vh;     /* Ensure background covers full viewport height */
+    background-color: black;
+    color: white;         
+    min-height: 100vh;     
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,7 +9,7 @@ body {
   }
   
 #login {
-    background-color: #1f2937; /* Darker gray background for form */
+    background-color: #1f2937;
     padding: 2rem;
     border-radius: 0.5rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -32,11 +32,11 @@ label {
     width: 100%;
     padding: 0.75rem 1rem; 
     margin-bottom: 1rem;
-    color: #374151; /* Darker gray text for input fields */
+    color: #374151;
   }
   
-  button[type="submit"] {
-    background-color: #3b82f6; /* Blue button background */
+  input[type="submit"] {
+    background-color: #3b82f6; 
     color: white;
     font-weight: 600;
     padding: 0.75rem 1.5rem;

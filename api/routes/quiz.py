@@ -1,11 +1,12 @@
-from flask import Blueprint, render_template, abort, session, flash, redirect, request
+from flask import Blueprint, render_template, abort, session, flash, redirect, request, url_for
 import csv
 import json
 import os
 from supabase import create_client, Client
 from datetime import datetime
 from functools import wraps  # Import wraps decorator
-from api.handlers.common_functions import initalise_quiz
+from api.handlers.common_functions import initalise_quiz, vector_calculate_area
+import numpy as np
 
 quiz = Blueprint('quiz', __name__,
                         template_folder='templates')
@@ -36,7 +37,31 @@ def dashboard_route():
     return render_template("leaderboard.html")
 
 
-@quiz.route('/grab')
-def grab():
-    questions = initalise_quiz(supabase, "10e912fc-3f86-4e42-8394-b21b19019bf1")
-    return render_template('quiz.html', questions=questions)
+@quiz.route('/grab/<question_no>', methods=["GET", "POST"])
+def grab(question_no):
+
+    a = (1, 2, 3)
+    b = (4, 5, 6)
+    c = (7, 8, 9)
+
+    questions = initalise_quiz(supabase, "10e912fc-3f86-4e42-8394-b21b19019bf1", a, b, c)
+    return render_template('quiz.html', questions=questions, question_no=int(question_no) - 1, a=a, b=b, c=c)
+
+
+
+@quiz.route('/grab/<question_no>/submit', methods=["POST"])
+def grab_submit(question_no):
+
+    id = request.form['question_id']
+    answer = request.form['answer']
+    a = request.form['a']
+    b = request.form['b']
+    c = request.form['c']
+
+    results = vector_calculate_area(a, b, c, answer)
+
+    if results == True:
+        return redirect(url_for('quiz.grab', question_no=int(question_no) + 1))
+    
+    return redirect(url_for('quiz.grab', question_no=int(question_no)))
+
