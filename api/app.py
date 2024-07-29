@@ -1,6 +1,7 @@
 from flask import Flask, redirect, render_template, session, url_for, flash, jsonify
 import os
 import requests
+import sentry_sdk
 from datetime import datetime
 from supabase import create_client, Client
 from functools import wraps  # Import wraps decorator
@@ -9,6 +10,13 @@ from api.routes.auth import auth
 from api.routes.cg import cg
 from api.routes.leaderboard import leaderboard
 from api.routes.quiz import quiz
+
+sentry_sdk.init(
+    dsn=os.environ.get('SENTRY_DSN'),
+    traces_sample_rate=1.0,
+    profiles_sample_rate=1.0,
+)
+
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY")
