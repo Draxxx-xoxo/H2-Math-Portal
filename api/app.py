@@ -11,7 +11,7 @@ from api.routes.leaderboard import leaderboard
 from api.routes.quiz import quiz
 
 app = Flask(__name__)
-app.secret_key = os.urandom(12)
+app.secret_key = os.environ.get("SECRET_KEY")
 app.register_blueprint(dashboard)
 app.register_blueprint(auth)
 app.register_blueprint(cg, url_prefix='/cg')
