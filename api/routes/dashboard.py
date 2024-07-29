@@ -35,6 +35,6 @@ def dashboard_route():
     response = supabase.table("students").select("cg, email").eq("login_user", session['user']).execute()
     cg = (response.data[0]['cg'])
     cg_link = cg.replace("/", "_")
-    return render_template("dashboard.html", cg=cg, cg_link=cg_link)
+    return render_template("dashboard.html", cg=cg, cg_link=cg_link, title="Dashboard")
 
 

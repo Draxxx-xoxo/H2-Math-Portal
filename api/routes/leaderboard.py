@@ -19,6 +19,6 @@ def dashboard_route():
 
     response = supabase.table("leaderboard").select("*").execute()
     students = response.data
-    return render_template("leaderboard.html", students=students)
+    return render_template("leaderboard.html", students=students, title="Leaderboard")
 
 

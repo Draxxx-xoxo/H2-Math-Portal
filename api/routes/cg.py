@@ -30,7 +30,7 @@ def authorization_required(f):
         response = supabase.table("students").select("cg, email").eq("login_user", id).eq("cg", cg).execute()
 
         if len(response.data) == 0:
-            return render_template("forbidden.html")
+            return render_template("forbidden.html", title="Forbidden")
         return f(*args, **kwargs)  # Allow access to the route
     return decorated_function
 
@@ -43,6 +43,6 @@ def dashboard_route(cg):
     response = supabase.table("students").select("*").eq("cg", cg).execute()
     students = response.data   
 
-    return render_template("cg.html", students=students)
+    return render_template("cg.html", students=students, title="Civic Group")
 
 

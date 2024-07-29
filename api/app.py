@@ -40,12 +40,12 @@ def authorization_required(f):
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html', title="Home")
 
 
 @app.errorhandler(404) 
 def not_found(e): 
-  return render_template("404.html") 
+  return render_template("404.html", title="404") 
 
 
 if __name__ == "__main__":

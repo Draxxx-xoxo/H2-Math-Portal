@@ -38,7 +38,7 @@ def login():
     if 'user' in session:
         return redirect('/dashboard')
     
-    return render_template('login.html')
+    return render_template('login.html', title="Login")
 
 
 @auth.route('/signout')
