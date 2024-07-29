@@ -20,15 +20,16 @@ def authorization_required(f):
         cg = str(kwargs.get('cg')).replace("_", "/")
 
         try:
-            email = session['user']
+            id = session['user']
         except:
-            email = None
+            id = None
             
-        response = supabase.table("students").select("cg, email").eq("email", email).eq("cg", cg).execute()
-
         if 'user' not in session:
             return redirect('/login')
-        elif len(response.data) == 0:
+        
+        response = supabase.table("students").select("cg, email").eq("login_user", id).eq("cg", cg).execute()
+
+        if len(response.data) == 0:
             return render_template("forbidden.html")
         return f(*args, **kwargs)  # Allow access to the route
     return decorated_function

@@ -28,7 +28,7 @@ def login():
         try:
             data = app.config['supabase'].auth.sign_in_with_password({"email": email, "password": password})
 
-            session['user'] = data.user.email
+            session['user'] = data.user.id
             flash("Login successful!", "success")
             return redirect('/dashboard')
         
