@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+          }
+        };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body class="bg-black flex flex-col min-h-screen text-white">
+    {% include 'partials/nav.html' %}
+    <main class="flex-grow flex items-center justify-center py-8 px-4 w-full">
+        <div class="max-w-4xl w-full bg-gray-800 rounded-lg shadow-lg p-8">
+            <h1 class="text-3xl font-semibold mb-4">Quiz</h1>
+            <p class="text-lg mb-6">Take a quiz</p>
+            <hr class="my-6 border-gray-600">
+
+            <!-- Start Quiz Button -->
+            <div class="flex justify-center">
+                <a href="{{ url_for('quiz.initalise', quiz_id=quiz_id, session_id=session_id, len_question=len_question) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Start Quiz
+                </a>
+            </div>
+        </div>
+    </main>
+    {% include 'partials/footer.html' %}
+</body>
+</html>

@@ -24,9 +24,8 @@
             <p class="text-lg mb-6">Take a quiz</p>
             <hr class="my-6 border-gray-600">
             <div class="flex flex-wrap justify-center">
-                {% for i in range(questions | length) %}
-                    <form method="POST" class="mr-2 mb-2" action="/grab/{{ i + 1 }}">
-                        <input type="hidden" name="question_id" value="{{ questions[i]['id'] }}">
+                {% for i in range(len_question) %}
+                    <form method="POST" class="mr-2 mb-2" action="{{url_for('quiz.quiz_question', quiz_id=quiz_id, session_id=session_id, question_no=i + 1)}}">
                         <input type="submit" value="{{ i + 1 }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 text-sm rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </form>
                 {% endfor %}
@@ -35,12 +34,12 @@
             <hr class="my-6 border-gray-600">
 
             <div class="mb-6">
-                <p class="text-l font-medium">{{ questions[question_no]['question'] }}</p>
-                <p class="text-gray-400">Topic: {{ questions[question_no]['topic'] }}</p>
-                <p class="text-gray-400">Marks: {{ questions[question_no]['marks'] }}</p>
+                <p class="text-l font-medium">{{ question[0]['question'] }}</p>
+                <p class="text-gray-400">Topic: {{ question[0]['topic'] }}</p>
+                <p class="text-gray-400">Marks: {{ question[0]['marks'] }}</p>
             </div>
             <form method="POST" class="mb-6" action="/grab/{{ question_no + 1 }}/submit">
-                <input type="hidden" name="question_id" value="{{ questions[question_no]['question_id'] }}">
+                <input type="hidden" name="question_id" value="{{ question[0]['question_id'] }}">
                 <input type="hidden" name="a" value="{{ a }}">
                 <input type="hidden" name="b" value="{{ b }}">
                 <input type="hidden" name="c" value="{{ c }}">
