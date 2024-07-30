@@ -3,7 +3,7 @@ import os
 from supabase import create_client, Client
 from datetime import datetime
 from functools import wraps  # Import wraps decorator
-from api.handlers.common_functions import initalise_quiz, vector_calculate_area, create_session, retrieve_question
+from api.handlers.common_functions import initalise_quiz, create_session, retrieve_question, check_answer
 import numpy as np
 from numpy import random
 
@@ -59,25 +59,23 @@ def quiz_question(quiz_id, session_id, question_no):
 
         question = retrieve_question(quiz_id, question_no, supabase, session_id)
 
-        return render_template('quiz.html', question=question, len_question=int("4"), a="", b="", c="", question_no=int(question_no), quiz_id=quiz_id, session_id=session_id, title="Question")
+        return render_template('quiz.html', question=question, len_question=int("4"), question_no=int(question_no), quiz_id=quiz_id, session_id=session_id, title="Question")
     else:
         abort(404)
 
 
 
-@quiz.route('/grab/<question_no>/submit', methods=["POST"])
-def grab_submit(question_no):
+@quiz.route('/quiz/<quiz_id>/<session_id>/<question_no>/submit', methods=["POST"])
+def question_submit(question_no, quiz_id, session_id):
 
     id = request.form['question_id']
+    print(id)
     answer = request.form['answer']
-    a = request.form['a']
-    b = request.form['b']
-    c = request.form['c']
 
-    results = vector_calculate_area(a, b, c, answer)
+    results = check_answer(supabase, id, answer, session_id, question_no)
 
     if results == True:
-        return redirect(url_for('quiz.grab', question_no=int(question_no) + 1))
+        return redirect(url_for('quiz.quiz_question', question_no=int(question_no) + 1, quiz_id=quiz_id, session_id=session_id)) 
     
-    return redirect(url_for('quiz.grab', question_no=int(question_no)))
+    return redirect(url_for('quiz.quiz_question', question_no=int(question_no), quiz_id=quiz_id, session_id=session_id))
 

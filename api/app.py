@@ -20,7 +20,7 @@ sentry_sdk.init(
 
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY")
+app.secret_key = os.environ.get("SESSION_KEY")
 app.register_blueprint(dashboard)
 app.register_blueprint(auth)
 app.register_blueprint(cg, url_prefix='/cg')

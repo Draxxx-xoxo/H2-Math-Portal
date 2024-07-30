@@ -1,35 +1,8 @@
 import numpy as np
 from numpy import random
-import json
+from api.handlers.common_math_func import vector_calculate_area
 
-def vector_calculate_area(a, b, c, answer):
-
-    a = (1, 2, 5)
-    b = (3, 4, 2)
-    c = (5, 6 ,1)
-
-    a = np.array(a)
-    b = np.array(b)
-    c = np.array(c)
-
-    cross = np.cross(b - a, c - a)
-    area = 0.5 * np.linalg.norm(cross)
-
-    print(area)
-    print(answer)
-
-    try:
-        if area == float(answer):
-            return True
-        else:
-            return False
-    except:
-        return False
     
-
-
-
-
 def string_format(string, id, a_, b_, c_):
 
     if id == "6c7d000b-f24e-47ab-bfad-b9b9042b4981":
@@ -155,7 +128,8 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
     question_dict = {
         "question": question_,
         "marks": marks,
-        "topic": topic
+        "topic": topic,
+        "id": question_id
     }
 
     questions_lis.append(question_dict)
@@ -163,6 +137,22 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
     return questions_lis
 
 
+def check_answer(supabase, id, answer, session_id, question_no):
 
+    value_dict = supabase.table("session_quiz").select(f"question_{question_no}").eq("session_id", session_id).execute()
+    value_dict = value_dict.data[0][f"question_{question_no}"]
 
-
+    results = False
+    if id == "6c7d000b-f24e-47ab-bfad-b9b9042b4981":
+        a = value_dict['a']
+        b = value_dict['b']
+        c = value_dict['c']
+        results = vector_calculate_area(a, b, c, answer)
+    elif id == "cbde540a-5226-417d-83dd-89d73d7ab3ad":
+        pass
+    elif id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
+        pass
+    elif id == "b4d10953-c763-4dd2-bc60-221e4a0d658a":
+        pass
+    
+    return results
