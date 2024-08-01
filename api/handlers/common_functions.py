@@ -1,25 +1,25 @@
 import numpy as np
 from numpy import random
-from api.handlers.common_math_func import vector_calculate_area
+from api.handlers.common_math_func import vector_calculate_area, projection_vector, integration
 
     
 def string_format(string, id, a_, b_, c_):
 
     if id == "6c7d000b-f24e-47ab-bfad-b9b9042b4981":
-        a = r"$ \begin{pmatrix}" + f"{a_[0]}" + r"\\" + f"{a_[1]}" + r"\\" + f"{a_[2]}" + r"\end" + r"{pmatrix} $"
-        b = r"$ \begin{pmatrix}" + f"{b_[0]}" + r"\\" + f"{b_[1]}" + r"\\" + f"{b_[2]}" + r"\end" + r"{pmatrix} $"
-        c = r"$ \begin{pmatrix}" + f"{c_[0]}" + r"\\" + f"{c_[1]}" + r"\\" + f"{c_[2]}" + r"\end" + r"{pmatrix} $"
+        a = f"`(({a_[0]}), ({a_[1]}), ({a_[2]}))`"
+        b = f"`(({b_[0]}), ({b_[1]}), ({b_[2]}))`"
+        c = f"`(({c_[0]}), ({c_[1]}), ({c_[2]}))`"
         string = string.format(a = a, b = b, c = c)
     elif id == "cbde540a-5226-417d-83dd-89d73d7ab3ad":
-        a = r"$ \begin{pmatrix}" + f"{a_[0]}" + r"\\" + f"{a_[1]}" + r"\\" + f"{a_[2]}" + r"\end" + r"{pmatrix} $"
-        b = r"$ \begin{pmatrix}" + f"{b_[0]}" + r"\\" + f"{b_[1]}" + r"\\" + f"{b_[2]}" + r"\end" + r"{pmatrix} $"
+        a = f"`(({a_[0]}), ({a_[1]}), ({a_[2]}))`"
+        b = f"`(({b_[0]}), ({b_[1]}), ({b_[2]}))`"
         string = string.format(a = a, b = b)
     elif id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
-        a = r"$\int (3 - 2x)^4 \, dx$"
+        a = r"`int (3 - 2x)^4 \, dx`"
         string = string.format(a = a)
     elif id == "b4d10953-c763-4dd2-bc60-221e4a0d658a":
-        a = r"\((1, 2, 5)\)"
-        c = r"\((3, 4, 5)\)"
+        a = r"`(1, 2, 5)`"
+        c = r"`(3, 4, 5)`"
         ab = f"1"
         ac = f"5"
 
@@ -59,7 +59,7 @@ def values(id):
 
 def create_session(supabase, user_id, quiz_id):
 
-    questions = supabase.table("quizzes").select("question_1, question_2, question_3, question_4, question_5").eq("quiz_id", quiz_id).execute()
+    questions = supabase.table("quiz").select("question_1, question_2, question_3, question_4, question_5").eq("quiz_id", quiz_id).execute()
 
     response = supabase.table("session_quiz").insert({"user": user_id, "quiz_id": quiz_id}).execute()
     session_id = response.data[0]['session_id']
@@ -71,7 +71,7 @@ def create_session(supabase, user_id, quiz_id):
         if questions.data[0][question] == None:
             continue
         else:
-            response = supabase.table("questions").select("*").eq("question_id", questions.data[0][question]).execute()
+            response = supabase.table("question").select("*").eq("question_id", questions.data[0][question]).execute()
             id = response.data[0]['question_id'] 
             
             values_json = values(id)
@@ -96,10 +96,10 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
 
     questions_lis = []
 
-    quiz = supabase.table("quizzes").select(f"question_{question_no}").eq("quiz_id", quiz_id).execute()
+    quiz = supabase.table("quiz").select(f"question_{question_no}").eq("quiz_id", quiz_id).execute()
 
     question_id = quiz.data[0][f"question_{question_no}"]
-    question = supabase.table("questions").select("*").eq("question_id", question_id).execute()
+    question = supabase.table("question").select("*").eq("question_id", question_id).execute()
     question_ = question.data[0]['question']
     marks = question.data[0]['marks']
     topic = question.data[0]['topic']
@@ -142,6 +142,16 @@ def check_answer(supabase, id, answer, session_id, question_no):
     value_dict = supabase.table("session_quiz").select(f"question_{question_no}").eq("session_id", session_id).execute()
     value_dict = value_dict.data[0][f"question_{question_no}"]
 
+    value_dict["answer"] = answer
+
+    response = (
+        supabase.table("session_quiz")
+        .update({f"question_{question_no}": value_dict})
+        .eq("session_id", session_id)
+        .execute()
+    )
+    
+
     results = False
     if id == "6c7d000b-f24e-47ab-bfad-b9b9042b4981":
         a = value_dict['a']
@@ -149,9 +159,11 @@ def check_answer(supabase, id, answer, session_id, question_no):
         c = value_dict['c']
         results = vector_calculate_area(a, b, c, answer)
     elif id == "cbde540a-5226-417d-83dd-89d73d7ab3ad":
-        pass
+        a = value_dict['a']
+        b = value_dict['b']
+        projection_vector(a, b, answer)
     elif id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
-        pass
+        integration()
     elif id == "b4d10953-c763-4dd2-bc60-221e4a0d658a":
         pass
     

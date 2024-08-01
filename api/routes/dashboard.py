@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, abort, session, flash, redirect, request, current_app as app
+from flask import Blueprint, render_template, abort, session, flash, redirect, request # type: ignore
 import csv
 import json
 import os

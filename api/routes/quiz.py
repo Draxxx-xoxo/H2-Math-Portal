@@ -35,7 +35,7 @@ def dashboard_route(quiz_id):
     value = create_session(supabase, session['user'], quiz_id)
     return redirect(url_for('quiz.start', session_id=value[0], quiz_id=quiz_id))
 
-
+      
 # Starting Page
 @quiz.route('/quiz/<quiz_id>/<session_id>/start', methods=["GET", "POST"])
 @authorization_required
@@ -45,6 +45,7 @@ def start(quiz_id, session_id):
 
 # Initalise Timer    
 @quiz.route('/quiz/<quiz_id>/<session_id>/initalise', methods=["GET", "POST"])
+@authorization_required
 def initalise(quiz_id, session_id):
 
     #questions = initalise_quiz(supabase, "10e912fc-3f86-4e42-8394-b21b19019bf1", a, b, c)
@@ -52,6 +53,7 @@ def initalise(quiz_id, session_id):
 
 
 @quiz.route('/quiz/<quiz_id>/<session_id>/<question_no>', methods=["GET", "POST"])
+@authorization_required
 def quiz_question(quiz_id, session_id, question_no):
 
     if question_no.isdigit():
@@ -65,6 +67,7 @@ def quiz_question(quiz_id, session_id, question_no):
 
 
 @quiz.route('/quiz/<quiz_id>/<session_id>/<question_no>/submit', methods=["POST"])
+@authorization_required
 def question_submit(question_no, quiz_id, session_id):
 
     id = request.form['question_id']
