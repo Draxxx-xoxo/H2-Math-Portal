@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, abort, session, flash, redirect, request, url_for, abort
+from flask import Blueprint, render_template, abort, session, flash, redirect, request, url_for, abort # type: ignore
 import os
 from supabase import create_client, Client
 from datetime import datetime
@@ -12,18 +12,17 @@ quiz = Blueprint('quiz', __name__,
 
 
 url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+key: str = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY")
 supabase: Client = create_client(url, key)
-
-def is_authorized():
-    if 'user' not in session:
-        return False
-    return True
 
 def authorization_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not is_authorized():
+        try:
+            access_token = session['access_token']
+            refresh_token = session['refresh_token']
+            res = supabase.auth.set_session(access_token, refresh_token)
+        except:
             return redirect('/login')  # Redirect to login if not authorized
         return f(*args, **kwargs)  # Allow access to the route
     return decorated_function

@@ -1,7 +1,7 @@
-from flask import Flask, redirect, render_template, session, url_for, flash, jsonify
+from flask import Flask, redirect, render_template, session, url_for, flash, jsonify # type: ignore
 import os
-import requests
-import sentry_sdk
+import requests # type: ignore
+import sentry_sdk # type: ignore
 from datetime import datetime
 from supabase import create_client, Client
 from functools import wraps  # Import wraps decorator
@@ -28,10 +28,9 @@ app.register_blueprint(leaderboard)
 app.register_blueprint(quiz)
 
 url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+key: str = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY")
 supabase: Client = create_client(url, key)
 
-app.config['supabase'] = supabase
 
 def is_authorized():
     if 'user' not in session:
@@ -55,6 +54,10 @@ def home():
 @app.errorhandler(404) 
 def not_found(e): 
   return render_template("404.html", title="404") 
+
+@app.route('/grab')
+def grab():
+    return render_template("mathjax.html")
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, abort, session, flash, redirect, request
+from flask import Blueprint, render_template, abort, session, flash, redirect, request, current_app as app
 import csv
 import json
 import os
@@ -9,7 +9,6 @@ from functools import wraps  # Import wraps decorator
 dashboard = Blueprint('dashboard', __name__,
                         template_folder='templates')
 
-
 def is_authorized():
     if 'user' not in session:
         return False
@@ -18,21 +17,27 @@ def is_authorized():
 def authorization_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not is_authorized():
+        try:
+            access_token = session['access_token']
+            refresh_token = session['refresh_token']
+            res = supabase.auth.set_session(access_token, refresh_token)
+
+        except:
             return redirect('/login')  # Redirect to login if not authorized
+        
         return f(*args, **kwargs)  # Allow access to the route
     return decorated_function
 
+
 url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+key: str = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY")
 supabase: Client = create_client(url, key)
 
 
 @dashboard.route('/dashboard')
 @authorization_required 
 def dashboard_route():
-    email = session['user']
-    response = supabase.table("students").select("cg, email").eq("login_user", session['user']).execute()
+    response = supabase.table("student").select("cg, email").eq("login_user", session['user']).execute()
     cg = (response.data[0]['cg'])
     cg_link = cg.replace("/", "_")
     return render_template("dashboard.html", cg=cg, cg_link=cg_link, title="Dashboard")
