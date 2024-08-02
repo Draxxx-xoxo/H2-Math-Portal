@@ -10,6 +10,7 @@ from api.routes.auth import auth
 from api.routes.cg import cg
 from api.routes.leaderboard import leaderboard
 from api.routes.quiz import quiz
+from api.routes.admin import admin
 
 sentry_sdk.init(
     dsn=os.environ.get('SENTRY_DSN'),
@@ -26,6 +27,7 @@ app.register_blueprint(auth)
 app.register_blueprint(cg, url_prefix='/cg')
 app.register_blueprint(leaderboard)
 app.register_blueprint(quiz)
+app.register_blueprint(admin, url_prefix='/admin')
 
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY")
