@@ -4,12 +4,13 @@ import requests # type: ignore
 import sentry_sdk # type: ignore
 from datetime import datetime
 from supabase import create_client, Client
-from functools import wraps  # Import wraps decorator
 from api.routes.dashboard import dashboard
 from api.routes.auth import auth
 from api.routes.cg import cg
 from api.routes.leaderboard import leaderboard
 from api.routes.quiz import quiz
+from api.routes.admin import admin
+from api.routes.error import error
 
 sentry_sdk.init(
     dsn=os.environ.get('SENTRY_DSN'),
@@ -26,34 +27,16 @@ app.register_blueprint(auth)
 app.register_blueprint(cg, url_prefix='/cg')
 app.register_blueprint(leaderboard)
 app.register_blueprint(quiz)
+app.register_blueprint(admin, url_prefix='/admin')
+app.register_blueprint(error)
 
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY")
 supabase: Client = create_client(url, key)
 
-
-def is_authorized():
-    if 'user' not in session:
-        return False
-    return True
-
-def authorization_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if not is_authorized():
-            flash("You are not authorized to access this page.", "error")
-            return redirect('/login')  # Redirect to login if not authorized
-        return f(*args, **kwargs)  # Allow access to the route
-    return decorated_function
-
 @app.route('/')
 def home():
     return render_template('home.html', title="Home")
-
-
-@app.errorhandler(404) 
-def not_found(e): 
-  return render_template("404.html", title="404") 
 
 @app.route('/grab')
 def grab():

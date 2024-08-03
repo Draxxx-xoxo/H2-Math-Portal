@@ -36,7 +36,7 @@ def authorization_required(f):
         response = supabase.table("student").select("cg, email").eq("login_user", id).eq("cg", cg).execute()
 
         if len(response.data) == 0:
-            return render_template("forbidden.html", title="Forbidden")
+            return abort(403)  # Redirect to forbidden if not authorized
         return f(*args, **kwargs)  # Allow access to the route
     return decorated_function
 
