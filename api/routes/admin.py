@@ -34,8 +34,19 @@ def add_question():
     return render_template('add_question.html', title="Add Question")
 
 @admin.route('/add_quiz')
+@authorization_required
 def add_quiz():
-    return render_template('add_quiz.html', title="Add Quiz")
+    question_lis = []
+    questions = supabase.table("question").select("*").execute()
+    for question in questions.data:
+        question_dict = {
+            "question": question['question'],
+            "marks": question['marks'],
+            "topic": question['topic'],
+            "id": question['question_id']
+        }
+        question_lis.append(question_dict)
+    return render_template('add_quiz.html', title="Add Quiz", questions=question_lis)
 
 
 
