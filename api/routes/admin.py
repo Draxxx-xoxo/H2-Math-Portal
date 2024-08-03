@@ -25,15 +25,15 @@ admin = Blueprint('admin', __name__,
                         template_folder='templates')
 
 
-@admin.route('/add_user')
+@admin.route('/add_user', methods=["GET", "POST"])
 def add_student():
     return render_template('add_user.html', title="Add Student")
 
-@admin.route('/add_question')
+@admin.route('/add_question', methods=["GET", "POST"])
 def add_question():
     return render_template('add_question.html', title="Add Question")
 
-@admin.route('/add_quiz')
+@admin.route('/add_quiz', methods=["GET", "POST"])
 @authorization_required
 def add_quiz():
     question_lis = []
