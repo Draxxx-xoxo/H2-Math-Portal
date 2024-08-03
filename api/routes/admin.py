@@ -18,6 +18,12 @@ def authorization_required(f):
             res = supabase.auth.set_session(access_token, refresh_token)
         except:
             return redirect('/login')  # Redirect to login if not authorized
+        
+        role_res = supabase.table("admin").select("*").eq("user", session['user']).execute()
+
+        if len(role_res.data) == 0:
+            return abort(403)  # Redirect to forbidden if not authorized
+               
         return f(*args, **kwargs)  # Allow access to the route
     return decorated_function
 
