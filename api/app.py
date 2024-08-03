@@ -9,7 +9,6 @@ from api.routes.auth import auth
 from api.routes.cg import cg
 from api.routes.leaderboard import leaderboard
 from api.routes.quiz import quiz
-from api.routes.admin import admin
 from api.routes.error import error
 
 sentry_sdk.init(
@@ -27,7 +26,6 @@ app.register_blueprint(auth)
 app.register_blueprint(cg, url_prefix='/cg')
 app.register_blueprint(leaderboard)
 app.register_blueprint(quiz)
-app.register_blueprint(admin, url_prefix='/admin')
 app.register_blueprint(error)
 
 url: str = os.environ.get("SUPABASE_URL")
