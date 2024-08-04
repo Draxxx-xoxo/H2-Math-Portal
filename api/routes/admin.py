@@ -32,16 +32,59 @@ admin = Blueprint('admin', __name__,
 
 
 @admin.route('/add_user', methods=["GET", "POST"])
+@authorization_required
 def add_student():
+    
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        role = request.form['role']
+        try:
+            response = supabase.auth.sign_up(credentials={"email": email, "password": password})
+            #flash("Student added successfully", "success")
+            if role == "admin":
+                supabase.table("admin").insert({"user": response.user.id}).execute()
+        except Exception as e:
+            print(e)
+            #flash(f"Error: {e}", "error")
+
     return render_template('add_user.html', title="Add Student")
 
 @admin.route('/add_question', methods=["GET", "POST"])
+@authorization_required
 def add_question():
+
+    if request.method == 'POST':
+        question = request.form['question']
+        marks = request.form['marks']
+        topic = request.form['topic']
+        try:
+            supabase.table("question").insert({"question": question, "marks": int(marks), "topic": topic}).execute()
+            #flash("Question added successfully", "success")
+        except Exception as e:
+            #flash(f"Error: {e}", "error")
+            print(e)
+
     return render_template('add_question.html', title="Add Question")
 
 @admin.route('/add_quiz', methods=["GET", "POST"])
 @authorization_required
 def add_quiz():
+
+    if request.method == 'POST':
+        questions_id = request.form.getlist('questions')
+        print(questions_id)
+        try:
+            response = supabase.table("quiz").insert({}).execute()
+            count = 1
+            for id in questions_id:
+                supabase.table("quiz").update({f"question_{count}": id}).eq("quiz_id", response.data[0]['quiz_id']).execute()
+                count += 1
+            #flash("Quiz added successfully", "success")
+        except Exception as e:
+            print(e)
+            #flash(f"Error: {e}", "error")
+
     question_lis = []
     questions = supabase.table("question").select("*").execute()
     for question in questions.data:
