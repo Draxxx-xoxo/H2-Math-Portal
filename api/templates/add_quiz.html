@@ -7,6 +7,7 @@
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             MathJax = {
             loader: {load: ['input/asciimath', 'output/chtml', 'ui/menu']},
@@ -46,6 +47,5 @@
                 </div>
             </form>
         </div>
-        {% include 'partials/footer.html' %}
-    </body>
-</html>
+    {% include 'partials/footer.html' %}
+
