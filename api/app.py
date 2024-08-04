@@ -9,6 +9,7 @@ from api.routes.auth import auth
 from api.routes.cg import cg
 from api.routes.leaderboard import leaderboard
 from api.routes.quiz import quiz
+from api.routes.admin import admin
 from api.routes.error import error
 
 sentry_sdk.init(
