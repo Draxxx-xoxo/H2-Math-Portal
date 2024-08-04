@@ -40,6 +40,15 @@ def dashboard_route():
     response = supabase.table("student").select("cg, email").eq("login_user", session['user']).execute()
     cg = (response.data[0]['cg'])
     cg_link = cg.replace("/", "_")
-    return render_template("dashboard.html", cg=cg, cg_link=cg_link, title="Dashboard")
+
+    role_res = supabase.table("admin").select("*").eq("user", session['user']).execute()
+    role = ""
+
+    if len(role_res.data) == 0:
+        role = "user"
+    else:
+        role = "admin"    
+
+    return render_template("dashboard.html", cg=cg, cg_link=cg_link, title="Dashboard", role=role)
 
 

@@ -26,7 +26,9 @@ app.register_blueprint(auth)
 app.register_blueprint(cg, url_prefix='/cg')
 app.register_blueprint(leaderboard)
 app.register_blueprint(quiz)
+app.register_blueprint(admin)
 app.register_blueprint(error)
+
 
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY")
