@@ -27,7 +27,7 @@ app.register_blueprint(auth)
 app.register_blueprint(cg, url_prefix='/cg')
 app.register_blueprint(leaderboard)
 app.register_blueprint(quiz)
-app.register_blueprint(admin)
+app.register_blueprint(admin, url_prefix='/admin')
 app.register_blueprint(error)
 
 
