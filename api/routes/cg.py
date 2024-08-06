@@ -33,7 +33,7 @@ def authorization_required(f):
         except:
             id = None
         
-        response = supabase.table("student").select("cg, email").eq("login_user", id).eq("cg", cg).execute()
+        response = supabase.table("student").select("cg").eq("login_user", id).eq("cg", cg).execute()
 
         if len(response.data) == 0:
             return abort(403)  # Redirect to forbidden if not authorized

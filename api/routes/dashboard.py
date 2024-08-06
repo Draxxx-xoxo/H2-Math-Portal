@@ -37,7 +37,7 @@ supabase: Client = create_client(url, key)
 @dashboard.route('/dashboard')
 @authorization_required 
 def dashboard_route():
-    response = supabase.table("student").select("cg, email").eq("login_user", session['user']).execute()
+    response = supabase.table("student").select("cg").eq("login_user", session['user']).execute()
     cg = (response.data[0]['cg'])
     cg_link = cg.replace("/", "_")
 
