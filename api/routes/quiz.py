@@ -71,10 +71,10 @@ def quiz_question(quiz_id, session_id, question_no):
 def question_submit(question_no, quiz_id, session_id):
 
     id = request.form['question_id']
-    print(id)
     answer = request.form['answer']
+    marks = request.form['marks']
 
-    results = check_answer(supabase, id, answer, session_id, question_no)
+    results = check_answer(marks, supabase, id, answer, session_id, question_no)
 
     if results == True:
         return redirect(url_for('quiz.quiz_question', question_no=int(question_no) + 1, quiz_id=quiz_id, session_id=session_id)) 

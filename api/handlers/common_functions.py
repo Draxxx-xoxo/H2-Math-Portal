@@ -15,7 +15,7 @@ def string_format(string, id, a_, b_, c_):
         b = f"`(({b_[0]}), ({b_[1]}), ({b_[2]}))`"
         string = string.format(a = a, b = b)
     elif id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
-        a = r"`int (3 - 2x)^4 \, dx`"
+        a = r"`int (3 - 2x)^4 dx`"
         string = string.format(a = a)
     elif id == "b4d10953-c763-4dd2-bc60-221e4a0d658a":
         a = r"`(1, 2, 5)`"
@@ -29,29 +29,30 @@ def string_format(string, id, a_, b_, c_):
     return string
 
 def values(id):
-    value_dict = {}
+    value_dict = {
+        "answer": "",
+        "correct": False
+    }
 
     if id == "6c7d000b-f24e-47ab-bfad-b9b9042b4981":
         a = random.randint(20, size=(3))
         b = random.randint(20, size=(3))
         c = random.randint(20, size=(3))
 
-        value_dict = {
+        value_dict.update({
             "a": a.tolist(),
             "b": b.tolist(),
             "c": c.tolist(),
-            "answer": ""
-            }
+            })
         
     elif id == "cbde540a-5226-417d-83dd-89d73d7ab3ad":
         a = random.randint(20, size=(3))
         b = random.randint(20, size=(3))
 
-        value_dict = {
+        value_dict.update({
             "a": a.tolist(),
             "b": b.tolist(),
-            "answer": ""
-            }
+            })
     
     return value_dict
 
@@ -106,6 +107,7 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
 
     value_dict = supabase.table("session_quiz").select(f"question_{question_no}").eq("session_id", session_id).execute()
     value_dict = value_dict.data[0][f"question_{question_no}"]
+    correct = value_dict['correct']
 
     a = None
     b = None
@@ -129,7 +131,8 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
         "question": question_,
         "marks": marks,
         "topic": topic,
-        "id": question_id
+        "id": question_id,
+        "correct": correct
     }
 
     questions_lis.append(question_dict)
@@ -137,20 +140,12 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
     return questions_lis
 
 
-def check_answer(supabase, id, answer, session_id, question_no):
+def check_answer(points, supabase, id, answer, session_id, question_no):
 
-    value_dict = supabase.table("session_quiz").select(f"question_{question_no}").eq("session_id", session_id).execute()
+    value_dict = supabase.table("session_quiz").select(f"question_{question_no}", "user").eq("session_id", session_id).execute()
+    user_id = value_dict.data[0]['user']
     value_dict = value_dict.data[0][f"question_{question_no}"]
 
-    value_dict["answer"] = answer
-
-    response = (
-        supabase.table("session_quiz")
-        .update({f"question_{question_no}": value_dict})
-        .eq("session_id", session_id)
-        .execute()
-    )
-    
 
     results = False
     if id == "6c7d000b-f24e-47ab-bfad-b9b9042b4981":
@@ -166,5 +161,33 @@ def check_answer(supabase, id, answer, session_id, question_no):
         integration()
     elif id == "b4d10953-c763-4dd2-bc60-221e4a0d658a":
         pass
+
+    if results == True:
+        print(points)
+        print(user_id)
+        add_points(points, supabase, user_id)
+        value_dict["answer"] = answer
+        value_dict["correct"] = True
+
+        supabase.table("session_quiz").update({f"question_{question_no}": value_dict}).eq("session_id", session_id).execute()
+        
+    else:
+        value_dict["answer"] = answer
+
+        supabase.table("session_quiz").update({f"question_{question_no}": value_dict}).eq("session_id", session_id).execute()
+
+    
     
     return results
+
+def add_points(points, supabase, user_id):
+
+    fetch_points = supabase.table("leaderboard").select("points").eq("user", user_id).execute()
+
+    points = fetch_points.data[0]['points'] + int(points)
+
+    supabase.table("leaderboard").update({"points": points}).eq("user", user_id).execute()
+
+
+
+    
