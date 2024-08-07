@@ -11,6 +11,7 @@ from api.routes.leaderboard import leaderboard
 from api.routes.quiz import quiz
 from api.routes.admin import admin
 from api.routes.error import error
+from api.routes.utility import utility
 
 sentry_sdk.init(
     dsn=os.environ.get('SENTRY_DSN'),
@@ -29,6 +30,7 @@ app.register_blueprint(leaderboard)
 app.register_blueprint(quiz)
 app.register_blueprint(admin, url_prefix='/admin')
 app.register_blueprint(error)
+app.register_blueprint(utility, url_prefix='/utilities')
 
 
 url: str = os.environ.get("SUPABASE_URL")
