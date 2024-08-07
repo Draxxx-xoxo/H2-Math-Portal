@@ -48,7 +48,7 @@ def start(quiz_id, session_id):
 @authorization_required
 def initalise(quiz_id, session_id):
 
-    #questions = initalise_quiz(supabase, "10e912fc-3f86-4e42-8394-b21b19019bf1", a, b, c)
+    initalise_quiz(supabase, session_id, quiz_id)
     return redirect(url_for('quiz.quiz_question', quiz_id=quiz_id, session_id=session_id, question_no=1))
 
 

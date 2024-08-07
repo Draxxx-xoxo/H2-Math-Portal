@@ -1,6 +1,8 @@
 import numpy as np
 from numpy import random
 from api.handlers.common_math_func import vector_calculate_area, projection_vector, integration
+from datetime import datetime, timedelta
+import pytz
 
     
 def string_format(string, id, a_, b_, c_):
@@ -89,8 +91,20 @@ def create_session(supabase, user_id, quiz_id):
     return session_id, len_questions
 
 
-def initalise_quiz():
-    pass
+def initalise_quiz(supabase, session_id, quiz_id):
+
+    tz = pytz.timezone('Asia/Singapore')
+    start_time = datetime.now(tz)
+
+    res = supabase.table("quiz").select("time_limit").eq("quiz_id", quiz_id).execute()
+    minutes = res.data[0]['time_limit']
+    end_time = start_time + timedelta(minutes=minutes)
+
+
+    supabase.table("session_quiz").update({"start_time": str(start_time), "is_active": True, "end_time": str(end_time)}).eq("session_id", session_id).execute()
+
+
+    
 
 def retrieve_correct(quiz_id, question_no, supabase, session_id, quiz_len):
 
@@ -190,8 +204,6 @@ def check_answer(points, supabase, id, answer, session_id, question_no):
 
         supabase.table("session_quiz").update({f"question_{question_no}": value_dict}).eq("session_id", session_id).execute()
 
-    
-    
     return results
 
 def add_points(points, supabase, user_id):
