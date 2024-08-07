@@ -92,12 +92,26 @@ def create_session(supabase, user_id, quiz_id):
 def initalise_quiz():
     pass
 
+def retrieve_correct(quiz_id, question_no, supabase, session_id, quiz_len):
+
+    correct_dict = {}
+
+    for i in range(1, quiz_len + 1):
+        value_dict = supabase.table("session_quiz").select(f"question_{i}").eq("session_id", session_id).execute()
+        value_dict = value_dict.data[0][f"question_{i}"]
+        correct = value_dict['correct']
+    
+        correct_dict[f"question_{i}"] = correct
+        
+    return correct_dict
+
 
 def retrieve_question(quiz_id, question_no, supabase, session_id):
 
     questions_lis = []
 
-    quiz = supabase.table("quiz").select(f"question_{question_no}").eq("quiz_id", quiz_id).execute()
+    quiz = supabase.table("quiz").select(f"question_{question_no}", "question_count", "time_limit").eq("quiz_id", quiz_id).execute()
+    quiz_len = quiz.data[0]['question_count']
 
     question_id = quiz.data[0][f"question_{question_no}"]
     question = supabase.table("question").select("*").eq("question_id", question_id).execute()
@@ -137,7 +151,9 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
 
     questions_lis.append(question_dict)
 
-    return questions_lis
+    correct_dict = retrieve_correct(quiz_id, question_no, supabase, session_id, quiz_len)
+
+    return questions_lis, quiz_len, correct_dict
 
 
 def check_answer(points, supabase, id, answer, session_id, question_no):
@@ -163,8 +179,6 @@ def check_answer(points, supabase, id, answer, session_id, question_no):
         pass
 
     if results == True:
-        print(points)
-        print(user_id)
         add_points(points, supabase, user_id)
         value_dict["answer"] = answer
         value_dict["correct"] = True
