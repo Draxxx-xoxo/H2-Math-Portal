@@ -47,15 +47,3 @@ def projection_vector(a, b, answer):
         return False
     
 
-
-def integration():
-    x = symbols('x')
-
-    # Define the expression
-    expr = (3 - 2*x)**4
-
-    # Perform the integration
-    result = integrate(expr, x)
-
-    # Print the result
-    print(result)
