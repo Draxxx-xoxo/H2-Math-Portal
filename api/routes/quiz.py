@@ -59,7 +59,7 @@ def quiz_question(quiz_id, session_id, question_no):
     if question_no.isdigit():
 
         data = retrieve_question(quiz_id, question_no, supabase, session_id)
-        return render_template('quiz.html', question=data[0], len_question=data[1], question_no=int(question_no), quiz_id=quiz_id, session_id=session_id, title="Question", correct_dict=data[2])
+        return render_template('quiz.html', question=data[0], len_question=data[1], question_no=int(question_no), quiz_id=quiz_id, session_id=session_id, title="Question", correct_dict=data[2], target_time=data[3])
     else:
         abort(404)
 

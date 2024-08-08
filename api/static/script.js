@@ -2,21 +2,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // Check if we are on the target page
     if (document.getElementById('quiz')) {
 
-        let targetTime = new Date();
-        targetTime.setMinutes(targetTime.getMinutes() + 5);
-
         function checkServerTime() {
             fetch('http://localhost:3000/utilities/current_time')
                 .then(response => response.json())
                 .then(data => {
                     
-                    let serverTime = new Date(data.current_time + 'Z'); // 'Z' indicates UTC time
-                    console.log('Server time:', serverTime);
-                    console.log("Target time:", targetTime)
+                    let serverTime = new Date(data.current_time); // 'Z' indicates UTC time
                     if (serverTime >= targetTime) {
-                        // Needs updating
-                        // If the server time is equal to or greater than the target time, redirect
-                        //window.location.href = 'https://www.example.com'; // Replace with your target URL
+                        window.location.assign("http://localhost:3000/dashboard");
+                        // window.location.assign("http://localhost:3000/quiz/submit") // Future implementation
                     }
                 })
                 .catch(error => console.error('Error fetching server time:', error));

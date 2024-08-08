@@ -133,7 +133,8 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
     marks = question.data[0]['marks']
     topic = question.data[0]['topic']
 
-    value_dict = supabase.table("session_quiz").select(f"question_{question_no}").eq("session_id", session_id).execute()
+    value_dict = supabase.table("session_quiz").select(f"question_{question_no}", "end_time").eq("session_id", session_id).execute()
+    end_time = value_dict.data[0]['end_time']
     value_dict = value_dict.data[0][f"question_{question_no}"]
     correct = value_dict['correct']
 
@@ -167,7 +168,7 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
 
     correct_dict = retrieve_correct(quiz_id, question_no, supabase, session_id, quiz_len)
 
-    return questions_lis, quiz_len, correct_dict
+    return questions_lis, quiz_len, correct_dict, end_time
 
 
 def check_answer(points, supabase, id, answer, session_id, question_no):
