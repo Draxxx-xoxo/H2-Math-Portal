@@ -1,11 +1,12 @@
 import numpy as np
 from numpy import random
+import random as rand
 from api.handlers.common_math_func import vector_calculate_area, projection_vector, integration
 from datetime import datetime, timedelta
 import pytz
 
     
-def string_format(string, id, a_, b_, c_):
+def string_format(string, id, a_, b_, c_, ab, ac):
 
     if id == "6c7d000b-f24e-47ab-bfad-b9b9042b4981":
         a = f"`(({a_[0]}), ({a_[1]}), ({a_[2]}))`"
@@ -20,12 +21,10 @@ def string_format(string, id, a_, b_, c_):
         a = r"`int (3 - 2x)^4 dx`"
         string = string.format(a = a)
     elif id == "b4d10953-c763-4dd2-bc60-221e4a0d658a":
-        a = r"`(1, 2, 5)`"
-        c = r"`(3, 4, 5)`"
-        ab = f"1"
-        ac = f"5"
-
-        string = string.format(a = a, c = c, ab = ab, ac = ac)
+        a = f"`({a_[0]}, {a_[1]}, {a_[2]})`"
+        b = f"`({b_[0]}, {b_[1]}, {b_[2]})`"
+        
+        string = string.format(a = a, c = b, ab = ab, ac = ac)
 
 
     return string
@@ -41,12 +40,13 @@ def values(id):
         b = random.randint(20, size=(3))
         c = random.randint(20, size=(3))
 
+
         value_dict.update({
             "a": a.tolist(),
             "b": b.tolist(),
             "c": c.tolist(),
-            })
-        
+        })
+
     elif id == "cbde540a-5226-417d-83dd-89d73d7ab3ad":
         a = random.randint(20, size=(3))
         b = random.randint(20, size=(3))
@@ -54,7 +54,23 @@ def values(id):
         value_dict.update({
             "a": a.tolist(),
             "b": b.tolist(),
-            })
+        })
+
+    elif id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
+        pass
+
+    elif id == "b4d10953-c763-4dd2-bc60-221e4a0d658a":
+        a = random.randint(20, size=(3))
+        b = random.randint(20, size=(3))
+        ab = rand.randint(1, 10)
+        ac = rand.randint(1, 10)
+
+        value_dict.update({
+            "a": a.tolist(),
+            "b": b.tolist(),
+            "ab": ab,
+            "ac": ac
+        })
     
     return value_dict
 
@@ -141,6 +157,8 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
     a = None
     b = None
     c = None
+    ab = None
+    ac = None
 
     if question_id == "6c7d000b-f24e-47ab-bfad-b9b9042b4981":
 
@@ -152,9 +170,17 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
             
         a = np.array(value_dict['a'])
         b = np.array(value_dict['b'])
-        c = None
+    
+    elif question_id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
+        pass
 
-    question_ = string_format(question_, question_id, a, b, c)
+    elif question_id == "b4d10953-c763-4dd2-bc60-221e4a0d658a":
+        a = np.array(value_dict['a'])
+        b = np.array(value_dict['b'])
+        ab = value_dict['ab']
+        ac = value_dict['ac']
+
+    question_ = string_format(question_, question_id, a, b, c, ab, ac)
 
     question_dict = {
         "question": question_,
@@ -187,7 +213,7 @@ def check_answer(points, supabase, id, answer, session_id, question_no):
     elif id == "cbde540a-5226-417d-83dd-89d73d7ab3ad":
         a = value_dict['a']
         b = value_dict['b']
-        projection_vector(a, b, answer)
+        results = projection_vector(a, b, answer)
     elif id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
         integration()
     elif id == "b4d10953-c763-4dd2-bc60-221e4a0d658a":

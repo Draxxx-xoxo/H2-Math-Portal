@@ -1,5 +1,6 @@
 import numpy as np
 from sympy import symbols, integrate # type: ignore
+import ast
 
 def vector_calculate_area(a, b, c, answer):
 
@@ -29,9 +30,23 @@ def projection_vector(a, b, answer):
     a = np.array(a)
     b = np.array(b)
 
-    projection = np.dot(a, b) / np.dot(b, b) * b
+    projection = np.round(np.dot(a, b) / np.dot(b, b) * b, decimals=2)
 
+    print(a)
+    print(b)
     print(projection)
+
+    try:
+        answer = ast.literal_eval(answer)
+        answer = np.array(answer)
+        if np.array_equal(answer, projection):
+            return True
+        else:
+            return False
+    except:
+        return False
+    
+
 
 def integration():
     x = symbols('x')
