@@ -1,3 +1,8 @@
 {
-	"rewrites": [{ "source": "/(.*)", "destination": "/api/app" }]
+	"rewrites": [{ "source": "/(.*)", "destination": "/api/app" }],
+	"redirects": [
+		{ "source": "/templates/(.*)", "destination": "/404", "permanent": true },
+		{ "source": "/handlers/(.*)", "destination": "/404", "permanent": true },
+		{ "source": "/data/(.*)", "destination": "/404", "permanent": true }
+	]
 }

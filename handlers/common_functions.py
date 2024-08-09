@@ -1,7 +1,7 @@
 import numpy as np
 from numpy import random
 import random as rand
-from handlers.common_math_func import vector_calculate_area, projection_vector
+from handlers.common_math_func import vector_calculate_area, projection_vector, calculate_coordinates
 from datetime import datetime, timedelta
 import pytz
 
@@ -217,7 +217,11 @@ def check_answer(points, supabase, id, answer, session_id, question_no):
     elif id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
         pass
     elif id == "b4d10953-c763-4dd2-bc60-221e4a0d658a":
-        pass
+        a = value_dict['a']
+        b = value_dict['b']
+        ab = value_dict['ab']
+        ac = value_dict['ac']
+        results = calculate_coordinates(a, b, ab, ac, answer)
 
     if results == True:
         add_points(points, supabase, user_id)
@@ -242,30 +246,6 @@ def add_points(points, supabase, user_id):
     supabase.table("leaderboard").update({"points": points}).eq("user", user_id).execute()
 
 
-
-"""
-import requests
-import os
-
-app_id = os.environ.get("WOLFRAM_APP_ID")
-url = os.environ.get("WOLFRAM_URL")
-
-def wolfram_api(query):
-
-    params = {
-        "i": query,
-        "appid": app_id,
-    }
-    
-    response = requests.get(url, params=params)
-
-    print(response.url)
-    
-    if response.status_code == 200:
-        return response.text
-    else:
-        return "Could not connect to Wolfram Alpha API" + f"[{response.status_code}]"
-"""
 
 
  

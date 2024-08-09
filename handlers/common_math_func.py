@@ -45,5 +45,27 @@ def projection_vector(a, b, answer):
             return False
     except:
         return False
+
+def calculate_coordinates(a, c, ab, ac, answer):
+    # Calculate n = ac - ab
+    n = ac - ab
+    
+    # Convert a and c to numpy arrays
+    a = np.array(a)
+    c = np.array(c)
+    
+    # Calculate coordinates of B using the section formula
+    b = (ab * c + n * a) / (ab + ac)
+
+    try:
+        answer = ast.literal_eval(answer)
+        answer = np.array(answer)
+        print(b, answer)
+        if np.array_equal(answer, b):
+            return True
+        else:
+            return False
+    except:
+        return False
     
 

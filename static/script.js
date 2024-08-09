@@ -7,7 +7,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 .then(response => response.json())
                 .then(data => {
                     
-                    let serverTime = new Date(data.current_time); // 'Z' indicates UTC time
+                    let serverTime = new Date(data.current_time);
+                    var time_remaining = targetTime - serverTime;
+                    var days = Math.floor(time_remaining / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((time_remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((time_remaining % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((time_remaining % (1000 * 60)) / 1000);
+
+                    document.getElementById("countdown").innerHTML = days + "d " + hours + "h "
+                    + minutes + "m " + seconds + "s ";
+
                     if (serverTime >= targetTime) {
                         window.location.assign("http://localhost:3000/dashboard");
                         // window.location.assign("http://localhost:3000/quiz/submit") // Future implementation
