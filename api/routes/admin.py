@@ -28,7 +28,7 @@ def authorization_required(f):
     return decorated_function
 
 admin = Blueprint('admin', __name__,
-                        template_folder='templates')
+                        template_folder='../../templates')
 
 
 @admin.route('/add_user', methods=["GET", "POST"])

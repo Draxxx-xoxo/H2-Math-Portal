@@ -21,7 +21,7 @@ sentry_sdk.init(
 )
 
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../templates')
 app.secret_key = os.environ.get("SESSION_KEY")
 app.register_blueprint(dashboard)
 app.register_blueprint(auth)

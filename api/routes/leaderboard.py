@@ -6,7 +6,7 @@ from supabase import create_client, Client
 from datetime import datetime
 
 leaderboard = Blueprint('leaderboard', __name__,
-                        template_folder='templates')
+                        template_folder="../../templates")
 
 
 url: str = os.environ.get("SUPABASE_URL")

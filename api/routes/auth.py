@@ -22,7 +22,7 @@ def authorization_required(f):
     return decorated_function
 
 auth = Blueprint('auth', __name__,
-                        template_folder='templates')
+                        template_folder='../../templates')
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():

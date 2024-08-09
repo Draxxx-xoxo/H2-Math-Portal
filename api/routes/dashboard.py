@@ -7,7 +7,7 @@ from datetime import datetime
 from functools import wraps  # Import wraps decorator
 
 dashboard = Blueprint('dashboard', __name__,
-                        template_folder='templates')
+                        template_folder='../../templates')
 
 def is_authorized():
     if 'user' not in session:

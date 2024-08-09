@@ -3,12 +3,12 @@ import os
 from supabase import create_client, Client
 from datetime import datetime
 from functools import wraps  # Import wraps decorator
-from api.handlers.common_functions import initalise_quiz, create_session, retrieve_question, check_answer
+from handlers.common_functions import initalise_quiz, create_session, retrieve_question, check_answer
 import numpy as np
 from numpy import random
 
 quiz = Blueprint('quiz', __name__,
-                        template_folder='templates')
+                        template_folder='../../templates')
 
 
 url: str = os.environ.get("SUPABASE_URL")

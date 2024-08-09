@@ -1,7 +1,7 @@
 import numpy as np
 from numpy import random
 import random as rand
-from api.handlers.common_math_func import vector_calculate_area, projection_vector
+from handlers.common_math_func import vector_calculate_area, projection_vector
 from datetime import datetime, timedelta
 import pytz
 
