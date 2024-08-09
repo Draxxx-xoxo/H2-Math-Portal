@@ -1,7 +1,7 @@
 import numpy as np
 from numpy import random
 import random as rand
-from api.handlers.common_math_func import vector_calculate_area, projection_vector, integration
+from api.handlers.common_math_func import vector_calculate_area, projection_vector
 from datetime import datetime, timedelta
 import pytz
 
@@ -215,7 +215,7 @@ def check_answer(points, supabase, id, answer, session_id, question_no):
         b = value_dict['b']
         results = projection_vector(a, b, answer)
     elif id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
-        integration()
+        pass
     elif id == "b4d10953-c763-4dd2-bc60-221e4a0d658a":
         pass
 
