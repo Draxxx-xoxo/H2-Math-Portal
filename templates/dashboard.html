@@ -1,5 +1,5 @@
 {% include 'partials/header.html' %}
-<body class="bg-black text-white min-h-screen flex flex-col items-center justify-center">
+<body class="bg-black text-white min-h-screen flex flex-col items-center justify-center pt-20">
     {% include 'partials/nav.html' %}
     <div class="container mx-auto">
         <h2 class="text-2xl font-bold mb-4">Welcome</h2>
@@ -11,28 +11,85 @@
         <br><hr class="border-gray-600 my-4"><br>
 
         <h2 class="text-xl font-semibold mb-4">Your Class Group: {{ cg }}</h2>
-        <div class="mb-4 space-x-4">
-                <a href="cg/{{cg_link}}" class="text-blue-500 hover:text-blue-700">View Class</a>
-                <a href="cg/{{cg_link}}/attendance" class="text-blue-500 hover:text-blue-700">Mark Attendance</a>
-                <a href="cg/{{cg_link}}/print_order" class="text-blue-500 hover:text-blue-700">Bookshop Printing</a>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+            <button 
+                class="bg-gray-800 shadow-lg hover:shadow-xl hover:bg-gray-700 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-center"
+                onclick="window.location.href='cg/{{cg_link}}';" 
+                aria-label="View Class">
+                <div class="text-lg font-semibold">View Class</div>
+                <p class="text-sm text-gray-400 mt-2">Manage and view your classes.</p>
+            </button>
+            <button 
+                class="bg-gray-800 shadow-lg hover:shadow-xl hover:bg-gray-700 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-center"
+                onclick="window.location.href='cg/{{cg_link}}/attendance';" 
+                aria-label="Mark Attendance">
+                <div class="text-lg font-semibold">Mark Attendance</div>
+                <p class="text-sm text-gray-400 mt-2">Track attendance quickly.</p>
+            </button>
+            <button 
+                class="bg-gray-800 shadow-lg hover:shadow-xl hover:bg-gray-700 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-center"
+                aria-label="Comming Soon">
+                <div class="text-lg font-semibold">Comming Soon</div>
+                <p class="text-sm text-gray-400 mt-2">More Features to offer soon.</p>
+            </button>
         </div>
     
         <br>
     
-        <div class="mb-4">
-            <form method="POST" action="/quiz/10e912fc-3f86-4e42-8394-b21b19019bf1/create_session">
-                <input type="submit" value="Start Quiz" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            </form>
+        <div class="container mx-auto mt-10">
+            <h2 class="text-xl font-semibold mb-4">Quizzes</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+                    <h2 class="text-2xl font-bold mb-4">Arithmetic Quiz</h2>
+                    <p class="mb-4">Test your arithmetic skills!</p>
+                    <form method="POST" action="/quiz/10e912fc-3f86-4e42-8394-b21b19019bf1/create_session">
+                        <input type="submit" value="Start Quiz" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
+                    </form>
+                </div>
+                <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+                    <h2 class="text-2xl font-bold mb-4">Algebra Quiz</h2>
+                    <p class="mb-4">Challenge yourself with algebra problems!</p>
+                    <form method="POST" action="/quiz/10e912fc-3f86-4e42-8394-b21b19019bf1/create_session">
+                        <input type="submit" value="Start Quiz" class="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700">
+                    </form>
+                </div>
+                <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+                    <h2 class="text-2xl font-bold mb-4">Calculus Quiz</h2>
+                    <p class="mb-4">Put your calculus knowledge to the test!</p>
+                    <form method="POST" action="/quiz/10e912fc-3f86-4e42-8394-b21b19019bf1/create_session">
+                        <input type="submit" value="Start Quiz" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">
+                    </form>
+                </div>
+            </div>
         </div>
+
+        <br><hr class="border-gray-600 my-4"><br>
     
         {% if role == "admin" %}
         <div class="mb-4">
             <h2 class="text-xl font-semibold mb-4">Admin Panel</h2>
-                <div class="space-y-2">
-                    <a href="/admin/add_question" class="text-blue-500 hover:text-blue-700">Add Questions</a>
-                    <a href="/admin/add_quiz" class="text-blue-500 hover:text-blue-700">Add Quiz</a>
-                    <a href="/admin/add_user" class="text-blue-500 hover:text-blue-700">Add Student</a>
-                </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                <button 
+                    class="bg-gray-800 shadow-lg hover:shadow-xl hover:bg-gray-700 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-center"
+                    onclick="window.location.href='admin/add_question';" 
+                    aria-label="View Class">
+                    <div class="text-lg font-semibold">Add Question</div>
+                    <p class="text-sm text-gray-400 mt-2">Create new questionss</p>
+                </button>
+                <button 
+                    class="bg-gray-800 shadow-lg hover:shadow-xl hover:bg-gray-700 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-center"
+                    onclick="window.location.href='admin/add_quiz';" 
+                    aria-label="Mark Attendance">
+                    <div class="text-lg font-semibold">Add Quiz</div>
+                    <p class="text-sm text-gray-400 mt-2">Add a new quiz for students</p>
+                </button>
+                <button 
+                    class="bg-gray-800 shadow-lg hover:shadow-xl hover:bg-gray-700 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-center"
+                    aria-label="Comming Soon" onclick="window.location.href='admin/add_user'">
+                    <div class="text-lg font-semibold">Add Users</div>
+                    <p class="text-sm text-gray-400 mt-2">To add new users to the portal</p>
+                </button>
+            </div>
         </div>
         {% endif %}
     </div>

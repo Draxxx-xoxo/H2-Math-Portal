@@ -1,26 +1,52 @@
 {% include 'partials/header.html' %}
 <body class="bg-black text-white min-h-screen flex flex-col items-center justify-center pt-16">
     {% include 'partials/nav.html' %}
-    <div class="table-container mx-auto my-8">
-        <table class="table min-w-full bg-gray-800 border border-gray-700">
+    <div class="flex justify-between items-center mb-4">
+        <div class="mr-2">
+            <label for="filter" class="text-white mr-2">Filter by:</label>
+            <select id="filter" class="bg-gray-800 text-white border border-gray-700 rounded px-2 py-1">
+                <option value="all">All</option>
+                <option value="top">Top Performers</option>
+                <option value="recent">Recently Updated</option>
+            </select>
+        </div>
+        <div class="ml-2">
+            <label for="sort" class="text-white mr-2">Sort by:</label>
+            <select id="sort" class="bg-gray-800 text-white border border-gray-700 rounded px-2 py-1">
+                <option value="name">Name</option>
+                <option value="points">Points</option>
+                <option value="date">Last Updated</option>
+            </select>
+        </div>
+    </div>
+    <div class="table-container mx-auto my-8 max-w-4xl">
+        <table class="table min-w-full bg-gray-800 border border-gray-700 rounded-lg overflow-hidden shadow-lg">
             <thead>
-                <tr class="bg-gray-900">
-                    <th class="px-4 py-2 border-b border-gray-700">Name</th>
-                    <th class="px-4 py-2 border-b border-gray-700">Civic Group</th>
-                    <th class="px-4 py-2 border-b border-gray-700">Points</th>
-                    <th class="px-4 py-2 border-b border-gray-700">Last Updated</th>
+                <tr class="bg-gray-900 text-gray-300 uppercase text-sm leading-normal">
+                    <th class="px-6 py-3 border-b border-gray-700">Name</th>
+                    <th class="px-6 py-3 border-b border-gray-700">Civic Group</th>
+                    <th class="px-6 py-3 border-b border-gray-700">Points</th>
+                    <th class="px-6 py-3 border-b border-gray-700">Last Updated</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="text-gray-400 text-sm font-light">
                 {% for student in students %}
-                <tr class="hover:bg-gray-700">
-                    <td class="px-4 py-2 border-b border-gray-600">{{ student["name"] }}</td>
-                    <td class="px-4 py-2 border-b border-gray-600">{{ student["cg"] }}</td>
-                    <td class="px-4 py-2 border-b border-gray-600">{{ student["points"] }}</td>
-                    <td class="px-4 py-2 border-b border-gray-600">{{ student["updated_at"] }}</td>
+                <tr class="hover:bg-gray-700 even:bg-gray-800 odd:bg-gray-900">
+                    <td class="px-6 py-4 border-b border-gray-600">{{ student["name"] }}</td>
+                    <td class="px-6 py-4 border-b border-gray-600">{{ student["cg"] }}</td>
+                    <td class="px-6 py-4 border-b border-gray-600">
+                        <div class="relative pt-1">
+                            <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-green-200">
+                                <div style="width:{{ student['points'] }}%;" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
+                            </div>
+                            <span>{{ student["points"] }} pts</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 border-b border-gray-600">{{ student["updated_at"] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+    
 {% include 'partials/footer.html' %}
