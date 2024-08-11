@@ -35,37 +35,25 @@
         </div>
     
         <br>
-    
+        
         <div class="container mx-auto mt-10">
             <h2 class="text-xl font-semibold mb-4">Quizzes</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for quiz in quiz_list: %}
                 <div class="bg-gray-800 rounded-lg shadow-lg p-6">
-                    <h2 class="text-2xl font-bold mb-4">Arithmetic Quiz</h2>
-                    <p class="mb-4">Test your arithmetic skills!</p>
-                    <form method="POST" action="/quiz/10e912fc-3f86-4e42-8394-b21b19019bf1/create_session">
-                        <input type="submit" value="Start Quiz" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
-                    </form>
-                </div>
-                <div class="bg-gray-800 rounded-lg shadow-lg p-6">
-                    <h2 class="text-2xl font-bold mb-4">Algebra Quiz</h2>
-                    <p class="mb-4">Challenge yourself with algebra problems!</p>
-                    <form method="POST" action="/quiz/10e912fc-3f86-4e42-8394-b21b19019bf1/create_session">
+                    <h2 class="text-2xl font-bold mb-4">{{ quiz['title'] }}</h2>
+                    <p class="mb-4">{{ quiz['description'] }}</p>
+                    <form method="POST" action="/quiz/{{ quiz['quiz_id'] }}/create_session">
                         <input type="submit" value="Start Quiz" class="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700">
                     </form>
                 </div>
-                <div class="bg-gray-800 rounded-lg shadow-lg p-6">
-                    <h2 class="text-2xl font-bold mb-4">Calculus Quiz</h2>
-                    <p class="mb-4">Put your calculus knowledge to the test!</p>
-                    <form method="POST" action="/quiz/10e912fc-3f86-4e42-8394-b21b19019bf1/create_session">
-                        <input type="submit" value="Start Quiz" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">
-                    </form>
-                </div>
+                {% endfor %}
             </div>
         </div>
-
-        <br><hr class="border-gray-600 my-4"><br>
     
         {% if role == "admin" %}
+        <br><hr class="border-gray-600 my-4"><br>
+
         <div class="mb-4">
             <h2 class="text-xl font-semibold mb-4">Admin Panel</h2>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">

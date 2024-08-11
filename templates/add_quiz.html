@@ -25,11 +25,15 @@
             <form method="POST" id="add-quiz-form" class="space-y-4">
                 <div>
                     <label for="quiz-title" class="block mb-2">Quiz Title:</label>
-                    <input type="text" id="quiz-title" name="quiz_title" class="bg-gray-800 text-white p-2 rounded w-full">
+                    <input type="text" id="quiz-title" name="title" class="bg-gray-800 text-white p-2 rounded w-full">
                 </div>
                 <div>
                     <label for="quiz-description" class="block mb-2">Description:</label>
-                    <textarea id="quiz-description" name="quiz_description" class="bg-gray-800 text-white p-2 rounded w-full"></textarea>
+                    <textarea id="quiz-description" name="description" class="bg-gray-800 text-white p-2 rounded w-full"></textarea>
+                </div>
+                <div>
+                    <label for="quiz-time-limit" class="block mb-2">Time Limit (Minutes):</label>
+                    <input type="number" id="quiz-time-limit" name="time-limit" class="bg-gray-800 text-white p-2 rounded w-full">
                 </div>
                 <div>
                     <label for="questions" class="block mb-2">Select Questions:</label>

@@ -44,11 +44,14 @@ def dashboard_route():
     role_res = supabase.table("admin").select("*").eq("user", session['user']).execute()
     role = ""
 
+    quiz_res = supabase.table("quiz").select("title, description, quiz_id").execute()
+    quiz_list = quiz_res.data
+
     if len(role_res.data) == 0:
         role = "user"
     else:
         role = "admin"    
 
-    return render_template("dashboard.html", cg=cg, cg_link=cg_link, title="Dashboard", role=role)
+    return render_template("dashboard.html", cg=cg, cg_link=cg_link, title="Dashboard", role=role, quiz_list=quiz_list)
 
 

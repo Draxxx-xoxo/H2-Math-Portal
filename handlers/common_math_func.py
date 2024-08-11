@@ -68,4 +68,34 @@ def calculate_coordinates(a, c, ab, ac, answer):
     except:
         return False
     
+# Function to determine if two vectors are parallel
+def are_parallel(d1, d2):
+    cross_product = np.cross(d1, d2)
+    return np.allclose(cross_product, np.zeros(3))
 
+# Function to check if lines intersect
+def check_intersection(r1, d1, r2, d2):
+    A = np.vstack((d1, -d2, np.cross(d1, d2)))
+    if np.linalg.matrix_rank(A) < 3:
+        # If the matrix rank is less than 3, the lines are either parallel or intersect
+        t = np.linalg.lstsq(A[:2,:2], r2 - r1, rcond=None)[0]
+        intersection_point = r1 + t[0] * d1
+        if np.allclose(intersection_point, r2 + t[1] * d2):
+            return "Intersecting", intersection_point
+        else:
+            return "Skew", None
+    return "Skew", None
+
+def parallel_intersection(r1, r2, d1, d2, answer):
+    # Check if the lines are parallel
+    if are_parallel(d1, d2):
+        result = "Parallel"
+        intersection_point = None
+    else:
+        # Check if the lines intersect or are skew
+        result, intersection_point = check_intersection(r1, d1, r2, d2)
+
+    if result == answer[0] and intersection_point == answer[1]:
+        return True
+    else:
+        return False

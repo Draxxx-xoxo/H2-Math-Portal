@@ -1,7 +1,7 @@
 import numpy as np
 from numpy import random
 import random as rand
-from handlers.common_math_func import vector_calculate_area, projection_vector, calculate_coordinates
+from handlers.common_math_func import vector_calculate_area, projection_vector, calculate_coordinates, parallel_intersection
 from datetime import datetime, timedelta
 import pytz
 
@@ -23,8 +23,11 @@ def string_format(string, id, a_, b_, c_, ab, ac):
     elif id == "b4d10953-c763-4dd2-bc60-221e4a0d658a":
         a = f"`({a_[0]}, {a_[1]}, {a_[2]})`"
         b = f"`({b_[0]}, {b_[1]}, {b_[2]})`"
-        
         string = string.format(a = a, c = b, ab = ab, ac = ac)
+    elif id == "79c0e3e6-403d-4db8-80d8-5fe01d54faa3":
+        a = f"`l_1 = r = ((x_0), (y_0), (z_0)) + t((a), (b), (c))`"
+        b = f"`l_2 = r = ((x_0), (y_0), (z_0)) + t((a), (b), (c))`"
+        string = string.format(a = a, b = b)
 
 
     return string
@@ -70,6 +73,18 @@ def values(id):
             "b": b.tolist(),
             "ab": ab,
             "ac": ac
+        })
+    elif id == "79c0e3e6-403d-4db8-80d8-5fe01d54faa3":
+        a = random.randint(10, size=(3))
+        ad = random.randint(10, size=(3))
+        b = random.randint(10, size=(3))
+        bd = random.randint(10, size=(3))
+
+        value_dict.update({
+            "a": a.tolist(),
+            "b": b.tolist(),
+            "ab": ad.tolist(),
+            "ac": bd.tolist()
         })
     
     return value_dict
@@ -179,6 +194,9 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
         b = np.array(value_dict['b'])
         ab = value_dict['ab']
         ac = value_dict['ac']
+    elif question_id == "79c0e3e6-403d-4db8-80d8-5fe01d54faa3":
+        a = np.array(value_dict['a'])
+        b = np.array(value_dict['b'])
 
     question_ = string_format(question_, question_id, a, b, c, ab, ac)
 
@@ -222,7 +240,12 @@ def check_answer(points, supabase, id, answer, session_id, question_no):
         ab = value_dict['ab']
         ac = value_dict['ac']
         results = calculate_coordinates(a, b, ab, ac, answer)
-
+    elif id == "79c0e3e6-403d-4db8-80d8-5fe01d54faa3":
+        a = value_dict['a']
+        b = value_dict['b']
+        ab = value_dict['ab']
+        ac = value_dict['ac']
+        results = parallel_intersection(a, b, ab, ac, answer)
     if results == True:
         add_points(points, supabase, user_id)
         value_dict["answer"] = answer
