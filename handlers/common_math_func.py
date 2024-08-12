@@ -99,3 +99,9 @@ def parallel_intersection(r1, r2, d1, d2, answer):
         return True
     else:
         return False
+    
+def differentiation():
+    pass
+
+def integration():
+    pass

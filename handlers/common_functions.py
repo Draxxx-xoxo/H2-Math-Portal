@@ -3,8 +3,14 @@ from numpy import random
 import random as rand
 from handlers.common_math_func import vector_calculate_area, projection_vector, calculate_coordinates, parallel_intersection
 from datetime import datetime, timedelta
+from handlers.wolframe_api import wolframe_api
+import json
 import pytz
 
+def read_json():
+    with open("data/equations.json", "r") as file:
+        data = json.load(file)
+    return data
     
 def string_format(string, id, a_, b_, c_, ab, ac):
 
@@ -18,7 +24,10 @@ def string_format(string, id, a_, b_, c_, ab, ac):
         b = f"`(({b_[0]}), ({b_[1]}), ({b_[2]}))`"
         string = string.format(a = a, b = b)
     elif id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
-        a = r"`int (3 - 2x)^4 dx`"
+        a = f"`int {a_} dx`"
+        string = string.format(a = a)
+    elif id == "4420ab72-e9b9-4870-975f-fa3a4ea6da37":
+        a = f"`{a_}`"
         string = string.format(a = a)
     elif id == "b4d10953-c763-4dd2-bc60-221e4a0d658a":
         a = f"`({a_[0]}, {a_[1]}, {a_[2]})`"
@@ -35,7 +44,6 @@ def string_format(string, id, a_, b_, c_, ab, ac):
 def values(id):
     value_dict = {
         "answer": "",
-        "correct_answer": "",
         "correct": False
     }
 
@@ -59,9 +67,6 @@ def values(id):
             "a": a.tolist(),
             "b": b.tolist(),
         })
-
-    elif id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
-        pass
 
     elif id == "b4d10953-c763-4dd2-bc60-221e4a0d658a":
         a = random.randint(20, size=(3))
@@ -88,6 +93,42 @@ def values(id):
             "ac": bd.tolist()
         })
     
+    elif id == "4420ab72-e9b9-4870-975f-fa3a4ea6da37":
+        a = random.randint(2, 10, size=(5))
+        data = read_json()
+        equations = data['differentiation']['equations']
+        equation = random.choice(equations)
+
+        equation = equation.format(a = a[0], b = a[1], c = a[2], d = a[3], e = a[4])
+
+        query = "Differentiate " + equation + " with respect to x"
+
+        correct_answer = wolframe_api(query)
+
+        value_dict.update({
+            "a": a.tolist(),
+            "equation": equation,
+            "correct_answer": correct_answer
+        })
+    
+    elif id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
+        a = random.randint(2, 10, size=(5))
+        data = read_json()
+        equations = data['integration']['equations']
+        equation = random.choice(equations)
+
+        equation = equation.format(a = a[0], b = a[1], c = a[2], d = a[3], e = a[4])
+
+        query = "Integrate" + equation + " with respect to x"
+
+        correct_answer = wolframe_api(query)
+
+        value_dict.update({
+            "a": a.tolist(),
+            "equation": equation,
+            "correct_answer": correct_answer
+        })
+
     return value_dict
 
     
@@ -110,6 +151,7 @@ def create_session(supabase, user_id, quiz_id):
             id = response.data[0]['question_id'] 
             
             values_json = values(id)
+            
 
             response = (
                 supabase.table("session_quiz")
@@ -187,9 +229,6 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
         a = np.array(value_dict['a'])
         b = np.array(value_dict['b'])
     
-    elif question_id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
-        pass
-
     elif question_id == "b4d10953-c763-4dd2-bc60-221e4a0d658a":
         a = np.array(value_dict['a'])
         b = np.array(value_dict['b'])
@@ -198,6 +237,12 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
     elif question_id == "79c0e3e6-403d-4db8-80d8-5fe01d54faa3":
         a = np.array(value_dict['a'])
         b = np.array(value_dict['b'])
+    elif question_id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
+        equation = value_dict['equation']
+        a = equation
+    elif question_id == "4420ab72-e9b9-4870-975f-fa3a4ea6da37":
+        equation = value_dict['equation']
+        a = equation
 
     question_ = string_format(question_, question_id, a, b, c, ab, ac)
 
@@ -271,6 +316,7 @@ def add_points(points, supabase, user_id):
 
 
     supabase.table("leaderboard").update({"points": points, "updated_at": updated_at}).eq("user", user_id).execute()
+
 
 
 

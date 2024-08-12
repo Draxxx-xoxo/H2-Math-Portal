@@ -1,10 +1,10 @@
 import requests
 import os
 
-app_id = os.environ.get("WOLFRAM_APP_ID")
-url = os.environ.get("WOLFRAM_URL")
+app_id = os.environ.get("WOLFRAME_APP_ID")
+url = os.environ.get("WOLFRAME_URL")
 
-def wolfram_api(query):
+def wolframe_api(query):
 
     params = {
         "i": query,
@@ -12,8 +12,6 @@ def wolfram_api(query):
     }
     
     response = requests.get(url, params=params)
-
-    print(response.url)
     
     if response.status_code == 200:
         return response.text

@@ -1,0 +1,25 @@
+{
+	"integration": {
+		"equations": [
+			"({a}x-2) / ({b}x^2 - {c}x - {d})^2",
+			"e^x / ({a} e^x - {b})",
+			"3 / sqrt({a} - ({b}x)^2",
+			"5 / (2x^2 + 3)",
+			"(ln(sqrt(x)))^2 / x "
+		]
+	},
+	"differentiation": {
+		"equations": [
+			"x({a}x - {b})^5",
+			"-{a}x / ({b}x + {c})^2",
+			"ln({a}x + {b})^2",
+			"{a} cos({b}x)",
+			"ln({a}x/(3x+1)",
+			"tan({a}x)^2"
+		],
+		"implicit_equations": []
+	},
+	"toc": {
+		"equations": []
+	}
+}
