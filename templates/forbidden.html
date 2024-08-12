@@ -1,8 +1,17 @@
 {% include 'partials/header.html' %}
-    <body>
-        <div>
-            {% include 'partials/nav.html' %}
-            <h1>Forbidden</h1>
-            <p>You are not authorized to view this page.</p>
-        </div>
+<body class="flex items-center justify-center min-h-screen">
+    {% include 'partials/nav.html' %}
+    <div class="text-center">
+        <h1 class="text-9xl font-bold">403</h1>
+        <p class="text-2xl"> <span class="text-red-600">Opps!</span> Forbidden</p>
+        <p class="text-lg">
+            You are not authorized to view this page.
+        </p>
+        <br>
+        <a href="/" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="home_button">Go Home</a>
+    </div>
 {% include 'partials/footer.html' %}
+
+
+
+
