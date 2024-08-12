@@ -35,6 +35,7 @@ def string_format(string, id, a_, b_, c_, ab, ac):
 def values(id):
     value_dict = {
         "answer": "",
+        "correct_answer": "",
         "correct": False
     }
 
@@ -265,8 +266,11 @@ def add_points(points, supabase, user_id):
     fetch_points = supabase.table("leaderboard").select("points").eq("user", user_id).execute()
 
     points = fetch_points.data[0]['points'] + int(points)
+    tz = pytz.timezone('Asia/Singapore')
+    updated_at = datetime.now(tz)
 
-    supabase.table("leaderboard").update({"points": points}).eq("user", user_id).execute()
+
+    supabase.table("leaderboard").update({"points": points, "updated_at": updated_at}).eq("user", user_id).execute()
 
 
 

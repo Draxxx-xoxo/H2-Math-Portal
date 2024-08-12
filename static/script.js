@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     if (document.getElementById('quiz')) {
 
         function checkServerTime() {
-            fetch('http://localhost:3000/utilities/current_time')
+            fetch('http://computing.draxx.me/utilities/current_time')
                 .then(response => response.json())
                 .then(data => {
                     
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     + minutes + "m " + seconds + "s ";
 
                     if (serverTime >= targetTime) {
-                        window.location.assign("http://localhost:3000/dashboard");
+                        window.location.assign("http://computing.draxx.me/dashboard");
                         // window.location.assign("http://localhost:3000/quiz/submit") // Future implementation
                     }
                 })

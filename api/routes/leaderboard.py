@@ -17,7 +17,7 @@ supabase: Client = create_client(url, key)
 @leaderboard.route('/leaderboard')
 def dashboard_route():
     
-    response = supabase.table("leaderboard").select("*").execute()
+    response = supabase.table("leaderboard").select("*").order("points", desc=True).execute()
     students = response.data
     return render_template("leaderboard.html", students=students, title="Leaderboard")
 
