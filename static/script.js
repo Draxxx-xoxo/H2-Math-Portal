@@ -35,5 +35,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 this.checked = false;
             }
         });
-    }
+    }    
 });
+
+function showResetForm() {
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('reset-form').style.display = 'block';
+}
+    
+    // Function to show the login form
+function showLoginForm() {
+    document.getElementById('login-form').style.display = 'block';
+    document.getElementById('reset-form').style.display = 'none';
+}
+
+

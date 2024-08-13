@@ -112,5 +112,16 @@ select {
   cursor: pointer;
 }
 
+.toggle-link {
+  display: block;
+  cursor: pointer;
+}
+.toggle-link:hover {
+  text-decoration: underline;
+}
+
+#reset-form {
+  display: none;
+}
 
   
