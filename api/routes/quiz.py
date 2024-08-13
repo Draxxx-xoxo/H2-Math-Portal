@@ -66,6 +66,17 @@ def quiz_question(quiz_id, session_id, question_no):
     else:
         abort(404)
 
+@quiz.route('/quiz/<quiz_id>/<session_id>/view/<question_no>', methods=["GET", "POST"])
+@authorization_required
+def view_quiz_question(quiz_id, session_id, question_no):
+
+    if question_no.isdigit():
+
+        data = retrieve_question(quiz_id, question_no, supabase, session_id)
+        return render_template('view_quiz.html', question=data[0], len_question=data[1], question_no=int(question_no), quiz_id=quiz_id, session_id=session_id, title="View Question", correct_dict=data[2])
+    else:
+        abort(404)
+
 
 
 @quiz.route('/quiz/<quiz_id>/<session_id>/<question_no>/submit', methods=["POST"])

@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     + minutes + "m " + seconds + "s ";
 
                     if (serverTime >= targetTime) {
-                        window.location.assign("http://computing.draxx.me/dashboard");
-                        // window.location.assign("http://localhost:3000/quiz/submit") // Future implementation
+                        window.location.assign(`http://computing.draxx.me/quiz/${quiz_id}/${session_id}/end`);
+                        //window.location.assign(`http://localhost:3000/quiz/${quiz_id}/${session_id}/end`);
                     }
                 })
                 .catch(error => console.error('Error fetching server time:', error));

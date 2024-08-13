@@ -278,8 +278,6 @@ def check_answer(points, supabase, id, answer, session_id, question_no):
         a = value_dict['a']
         b = value_dict['b']
         results = projection_vector(a, b, answer)
-    elif id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
-        pass
     elif id == "b4d10953-c763-4dd2-bc60-221e4a0d658a":
         a = value_dict['a']
         b = value_dict['b']
@@ -292,16 +290,20 @@ def check_answer(points, supabase, id, answer, session_id, question_no):
         ab = value_dict['ab']
         ac = value_dict['ac']
         results = parallel_intersection(a, b, ab, ac, answer)
+    elif id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
+        pass
+    elif id == "4420ab72-e9b9-4870-975f-fa3a4ea6da37":
+        pass
+
+
     if results == True:
         add_points(points, supabase, user_id)
         value_dict["answer"] = answer
         value_dict["correct"] = True
 
-        supabase.table("session_quiz").update({f"question_{question_no}": value_dict}).eq("session_id", session_id).execute()
-        
+        supabase.table("session_quiz").update({f"question_{question_no}": value_dict}).eq("session_id", session_id).execute() 
     else:
         value_dict["answer"] = answer
-
         supabase.table("session_quiz").update({f"question_{question_no}": value_dict}).eq("session_id", session_id).execute()
 
     return results

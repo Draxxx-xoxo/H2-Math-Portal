@@ -16,23 +16,22 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-<body class="bg-black flex flex-col min-h-screen text-white" id="quiz">
+<body class="bg-black flex flex-col min-h-screen text-white" id="view-quiz">
     {% include 'partials/nav.html' %}
     <main class="flex-grow flex items-center justify-center py-8 px-4 w-full">
         <div class="max-w-4xl w-full bg-gray-800 rounded-lg shadow-lg p-8">
             <h1 class="text-3xl font-semibold mb-4">Quiz</h1>
-            <p class="text-lg mb-6">Take a quiz</p>
-            <p id="countdown" class="text-lg mb-6"></p>
+            <p class="text-lg mb-6">View a quiz</p>
             <hr class="my-6 border-gray-600">
             <div class="flex flex-wrap justify-center">
                 {% for i in range(1, len_question + 1) %}
                     {% set question_key = 'question_' ~ i %}
                     {% if correct_dict[question_key] == True %}
-                        <form method="POST" class="mr-2 mb-2" action="{{url_for('quiz.quiz_question', quiz_id=quiz_id, session_id=session_id, question_no=i )}}">
+                        <form method="POST" class="mr-2 mb-2" action="{{url_for('quiz.view_quiz_question', quiz_id=quiz_id, session_id=session_id, question_no=i )}}">
                             <input type="submit" value="{{ i }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 text-sm rounded focus:outline-none focus:ring-2 focus:ring-green-500">
                         </form>
                     {% else: %}
-                        <form method="POST" class="mr-2 mb-2" action="{{url_for('quiz.quiz_question', quiz_id=quiz_id, session_id=session_id, question_no=i )}}">
+                        <form method="POST" class="mr-2 mb-2" action="{{url_for('quiz.view_quiz_question', quiz_id=quiz_id, session_id=session_id, question_no=i )}}">
                             <input type="submit" value="{{ i }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 text-sm rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </form>
                     {% endif %}
@@ -46,26 +45,12 @@
                 <p class="text-gray-400">Topic: {{ question[0]['topic'] }}</p>
                 <p class="text-gray-400">Marks: {{ question[0]['marks'] }}</p>
             </div>
-            {% if question[0]['correct'] == False: %}
-            <form method="POST" class="mb-6" action="{{ url_for('quiz.question_submit', quiz_id=quiz_id, session_id=session_id, question_no=question_no)}}">
-                <input type="hidden" name="question_id" value="{{ question[0]['id'] }}">
-                <input type="hidden" name="marks" value="{{ question[0]['marks'] }}">
-                <input type="text" name="answer" id="answer" class="shadow-sm appearance-none border border-gray-600 rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Answer">
-                <input type="submit" value="Submit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </form>
-            {% else: %}
             <form method="POST" class="mb-6" action="{{ url_for('quiz.question_submit', quiz_id=quiz_id, session_id=session_id, question_no=question_no)}}">
                 <input type="hidden" name="question_id" value="{{ question[0]['id'] }}" disabled>
                 <input type="hidden" name="marks" value="{{ question[0]['marks'] }}" disabled>
                 <input type="text" name="answer" id="answer" class="shadow-sm appearance-none border border-gray-600 rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 opacity-50 cursor-not-allowed" placeholder="Answer" disabled>
                 <input type="submit" value="Submit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 opacity-50 cursor-not-allowed" disabled>
             </form>
-            {% endif %}
         </div>
     </main>
-    <script type="text/javascript">
-        var targetTime = new Date("{{ target_time }}");
-        var session_id = "{{ session_id }}"
-        var quiz_id = "{{ quiz_id }}"
-    </script>
     {% include 'partials/footer.html' %}
