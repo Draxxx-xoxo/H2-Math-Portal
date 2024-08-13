@@ -48,12 +48,11 @@ def dashboard_route():
     quiz_list = quiz_res.data
 
     quiz_session_res = supabase.table('session_quiz').select('quiz_id, session_id').eq('user', session['user']).execute()
-    print(quiz_session_res.data)
-
-    lis_quiz_id = []
+    lis_quiz_id = [[],{}]
 
     for quiz in quiz_session_res.data:
-        lis_quiz_id.append(quiz['quiz_id'])
+        lis_quiz_id[0].append(quiz['quiz_id'])
+        lis_quiz_id[1][quiz['quiz_id']] = quiz['session_id']
 
     if len(role_res.data) == 0:
         role = "user"
