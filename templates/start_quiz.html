@@ -24,12 +24,21 @@
             <p class="text-lg mb-6">Take a quiz</p>
             <hr class="my-6 border-gray-600">
 
-            <!-- Start Quiz Button -->
+            {% if is_active: %}
+            <div class="flex justify-center">
+                <a href="{{ url_for('quiz.quiz_question', quiz_id=quiz_id, session_id=session_id, question_no=1) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Continue Quiz
+                </a>
+            </div>
+
+            {% else %}
+
             <div class="flex justify-center">
                 <a href="{{ url_for('quiz.initalise', quiz_id=quiz_id, session_id=session_id, len_question=len_question) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Start Quiz
                 </a>
             </div>
+            {% endif %}
         </div>
     </main>
     {% include 'partials/footer.html' %}

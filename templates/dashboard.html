@@ -44,7 +44,7 @@
                     <h2 class="text-2xl font-bold mb-4">{{ quiz['title'] }}</h2>
                     <p class="mb-4">{{ quiz['description'] }}</p>
                     {% if quiz['quiz_id'] in created_quiz[0] %}
-                    <form method="POST" action="/quiz/{{ quiz['quiz_id'] }}/created_quiz[1]['{{ quiz['quiz_id'] }}']/start">
+                    <form method="POST" action="/quiz/{{ quiz['quiz_id'] }}/{{ created_quiz[1][quiz['quiz_id']] }}/start">
                         <input type="submit" value="Continue Quiz" class="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700">
                     </form>
                     {% else %}
