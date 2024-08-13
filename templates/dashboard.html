@@ -43,9 +43,15 @@
                 <div class="bg-gray-800 rounded-lg shadow-lg p-6">
                     <h2 class="text-2xl font-bold mb-4">{{ quiz['title'] }}</h2>
                     <p class="mb-4">{{ quiz['description'] }}</p>
+                    {% if quiz['quiz_id'] in created_quiz[0] %}
+                    <form method="POST" action="/quiz/{{ quiz['quiz_id'] }}/created_quiz[1]['{{ quiz['quiz_id'] }}']/start">
+                        <input type="submit" value="Continue Quiz" class="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700">
+                    </form>
+                    {% else %}
                     <form method="POST" action="/quiz/{{ quiz['quiz_id'] }}/create_session">
                         <input type="submit" value="Start Quiz" class="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700">
                     </form>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
