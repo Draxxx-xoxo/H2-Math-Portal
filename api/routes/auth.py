@@ -27,26 +27,38 @@ auth = Blueprint('auth', __name__,
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        try:
-            data = supabase.auth.sign_in_with_password({"email": email, "password": password})
+        if request.form['login'] == 'login':
+            email = request.form['email']
+            password = request.form['password']
+            try:
+                data = supabase.auth.sign_in_with_password({"email": email, "password": password})
 
-            session['user'] = data.user.id
-            session['access_token'] = data.session.access_token
-            session['refresh_token'] = data.session.refresh_token
+                session['user'] = data.user.id
+                session['access_token'] = data.session.access_token
+                session['refresh_token'] = data.session.refresh_token
 
-            flash("Login successful!", "success")
-            return redirect('/dashboard')
-        
-        except Exception as e:
-            flash(f"Login error: {e}", "error")
+                flash("Login successful!", "success")
+                return redirect('/dashboard')
+            
+            except Exception as e:
+                flash(f"Login error: {e}", "error")
+
+        elif request.form['login'] == "reset":
+            email = request.form['email']
+            try:
+                supabase.auth.reset_password_email(email=email, options={'redirect_to': 'http://localhost:3000/update-password'})
+                flash("Password reset email sent.", "success")
+            except Exception as e:
+                flash(f"Error: {e}", "error")
 
     if 'user' in session:
         return redirect('/dashboard')
     
     return render_template('login.html', title="Login")
 
+@auth.route('/update-password', methods=['GET', 'POST'])
+def update_password():
+    return render_template('update_password.html', title="Update Password")
 
 @auth.route('/signout')
 @authorization_required 

@@ -17,6 +17,7 @@
                 <label for="password" class="block text-sm font-bold mb-2">Password:</label>
                 <input type="password" name="password" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
             </div>
+            <input type="hidden" name="login" value="login">
             <input type="submit" value="Login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
         </form>
         <p class="mt-4"><span class="toggle-link" onclick="showResetForm()" class="toggle-link text-blue-500 hover:text-blue-700">Forgot Password?</span></p>
@@ -24,11 +25,12 @@
         </div>
 
         <div id="reset-form">
-        <form id="login" method="POST" class="bg-gray-900 p-8 rounded shadow-md">
+        <form id="reset" method="POST" class="bg-gray-900 p-8 rounded shadow-md">
             <div class="mb-4">
                 <label for="email" class="block text-sm font-bold mb-2">Email:</label>
                 <input type="email" name="email" id="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
             </div>
+            <input type="hidden" name="login" value="reset">
             <input type="submit" value="Reset Password" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
         </form>
         <p class="mt-4"><span class="toggle-link" onclick="showLoginForm()" class="toggle-link text-blue-500 hover:text-blue-700">Back to Login</span></p>

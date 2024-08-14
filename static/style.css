@@ -8,7 +8,7 @@ body {
     justify-content: center;
   }
   
-#login {
+#login, #reset {
     background-color: #1f2937;
     padding: 2rem;
     border-radius: 0.5rem;

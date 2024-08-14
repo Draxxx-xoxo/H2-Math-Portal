@@ -51,4 +51,11 @@ def dashboard_route(cg):
 
     return render_template("cg.html", students=students, title="Civic Group")
 
+@cg.route('/<cg>/view-completion', methods=["GET", "POST"])
+def view_completion(cg):
+    cg = cg.replace("_", "/")
+    response = supabase.table("student").select("*").eq("cg", cg).execute()
+    students = response.data
+    return render_template("view_completion.html", students=students, title="View Completion")
+
 
