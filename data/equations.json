@@ -14,7 +14,7 @@
 			"-{a}x / ({b}x + {c})^2",
 			"ln({a}x + {b})^2",
 			"{a} cos({b}x)",
-			"ln({a}x/(3x+1)",
+			"ln({a}x/(3x+1))",
 			"tan({a}x)^2"
 		],
 		"implicit_equations": []
