@@ -3,7 +3,6 @@
     {% include 'partials/nav.html' %}
     <div class="container mx-auto mt-10 p-6 max-w-4xl">
         <div class="bg-gray-800 rounded-lg shadow-lg p-6">
-            <!-- Profile Header -->
             <div class="flex items-center space-x-6">
                 <img src="https://via.placeholder.com/150" alt="Profile Picture" class="w-20 h-20 rounded-full">
                 <div>
@@ -15,9 +14,24 @@
             <div>
                 <h5 class="text-lg font-bold mt-6">Account Settings</h5>
                 <div>
-                    <label>
-                        
-                    </label>
+                <button 
+                    class="bg-gray-900 shadow-lg hover:shadow-xl hover:bg-gray-700 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-left w-full mb-2"
+                    onclick="window.location.href='profile/set-email';" 
+                    aria-label="Change Email">
+                    <div class="text-lg font-semibold">Change Email</div>
+                </button>
+                <button 
+                class="bg-gray-900 shadow-lg hover:shadow-xl hover:bg-gray-700 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-left w-full mb-2"
+                onclick="window.location.href='profile/set-email';" 
+                aria-label="Change Email">
+                <div class="text-lg font-semibold">Change Password</div>
+                </button>
+                <button 
+                class="bg-gray-900 shadow-lg hover:shadow-xl hover:bg-gray-700 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-left w-full mb-2"
+                onclick="window.location.href='profile/set-email';" 
+                aria-label="Change Email">
+                <div class="text-lg font-semibold">Email Preferences</div>
+                </button>
                 </div>
             </div>
 
