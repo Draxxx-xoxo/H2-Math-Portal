@@ -99,10 +99,10 @@ def question_submit(question_no, quiz_id, session_id):
 @authorization_required
 def end(quiz_id, session_id):
     
-        res = supabase.table("session_quiz").select("is_active").eq("session_id", session_id).execute()
-        is_active = res.data[0]['is_active']
+    res = supabase.table("session_quiz").select("is_active").eq("session_id", session_id).execute()
+    is_active = res.data[0]['is_active']
     
-        if is_active == True:
-            supabase.table("session_quiz").update({"is_active": False, "is_completed": True}).eq("session_id", session_id).execute()
+    if is_active == True:
+        supabase.table("session_quiz").update({"is_active": False, "is_completed": True}).eq("session_id", session_id).execute()
     
-        return redirect(url_for('dashboard.dashboard_route'))
+    return redirect(url_for('dashboard.dashboard_route'))

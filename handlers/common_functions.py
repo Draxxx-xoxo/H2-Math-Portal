@@ -211,6 +211,8 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
     end_time = value_dict.data[0]['end_time']
     value_dict = value_dict.data[0][f"question_{question_no}"]
     correct = value_dict['correct']
+    user_answer = value_dict['answer']
+    #correct_answer = value_dict['correct_answer']
 
     a = None
     b = None
@@ -251,7 +253,8 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
         "marks": marks,
         "topic": topic,
         "id": question_id,
-        "correct": correct
+        "correct": correct,
+        "user_answer": user_answer
     }
 
     questions_lis.append(question_dict)
@@ -317,7 +320,7 @@ def add_points(points, supabase, user_id):
     updated_at = datetime.now(tz)
 
 
-    supabase.table("leaderboard").update({"points": points, "updated_at": updated_at}).eq("user", user_id).execute()
+    supabase.table("leaderboard").update({"points": points, "updated_at": str(updated_at)}).eq("user", user_id).execute()
 
 
 

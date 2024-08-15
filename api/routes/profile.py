@@ -42,9 +42,27 @@ def profile_main():
 @profile.route("/profile/set-password", methods=["GET", "POST"])
 @authorization_required
 def profile_password():
+    
+    if request.method == 'POST':
+        password = request.form['password']
+        try:
+            response = supabase.auth.update_user(attributes={"password": password})
+            flash("Password updated successfully", "success")
+        except Exception as e:
+            flash(f"Error: {e}", "error")
+            
     return render_template('profile_update_password.html', title="Profile")
 
 @profile.route("/profile/set-email", methods=["GET", "POST"])
 @authorization_required
 def profile_email():
+    
+    if request.method == 'POST':
+        email = request.form['email']
+        try:
+            response = supabase.auth.update_user(attributes={"email": email})
+            flash("Email updated successfully", "success")
+        except Exception as e:
+            flash(f"Error: {e}", "error")
+
     return render_template('profile_update_email.html', title="Profile")
