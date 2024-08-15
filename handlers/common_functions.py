@@ -1,7 +1,7 @@
 import numpy as np
 from numpy import random
 import random as rand
-from handlers.common_math_func import vector_calculate_area, projection_vector, calculate_coordinates, parallel_intersection
+from handlers.common_math_func import vector_calculate_area, projection_vector, calculate_coordinates, parallel_intersection, parse_asciimath, substitute_and_evaluate
 from datetime import datetime, timedelta
 from handlers.wolframe_api import wolframe_api
 import json
@@ -294,9 +294,49 @@ def check_answer(points, supabase, id, answer, session_id, question_no):
         ac = value_dict['ac']
         results = parallel_intersection(a, b, ab, ac, answer)
     elif id == "e214d1c2-0733-48c9-b626-85f1f95475c3":
-        pass
+        correct_answer = value_dict['correct_answer']
+        correct_answer_parse = parse_asciimath(correct_answer)
+        correct_results = substitute_and_evaluate(correct_answer_parse, {"x": 5})
+
+        try:
+            input_answer = parse_asciimath(answer)
+            final_results = substitute_and_evaluate(input_answer, {"x": 5})
+        except:
+            results = False
+        
+        if final_results == correct_results:
+            results = True
+        else: 
+            results = False
+
+        print(correct_answer)
+        print(input_answer)
+        print(correct_answer_parse)
+        print(correct_results)
+        print(final_results)
+
     elif id == "4420ab72-e9b9-4870-975f-fa3a4ea6da37":
-        pass
+        correct_answer = value_dict['correct_answer']
+        correct_answer_parse = parse_asciimath(correct_answer)
+        correct_results = substitute_and_evaluate(correct_answer_parse, {"x": 5})
+
+        try:
+            input_answer = parse_asciimath(answer)
+            results = substitute_and_evaluate(input_answer, {"x": 5})
+        except:
+            results = False
+        
+        if results == correct_results:
+            results = True
+        else: 
+            results = False
+        
+        print(correct_answer)
+        print(input_answer)
+        print(correct_answer_parse)
+        print(correct_results)
+        print(results)
+
 
 
     if results == True:

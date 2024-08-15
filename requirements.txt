@@ -7,3 +7,5 @@ sentry-sdk==2.11.0
 sympy==1.13.1
 pytz==2024.1
 requests==2.32.3
+antlr4-python3-runtime==4.11
+py_asciimath==0.3.0

@@ -1,6 +1,10 @@
 import numpy as np
-from sympy import symbols, integrate # type: ignore
 import ast
+from sympy import sympify, latex
+import logging
+from py_asciimath.translator.translator import ASCIIMath2Tex
+from sympy import symbols, sqrt, sympify 
+from sympy.parsing.latex import parse_latex
 
 def vector_calculate_area(a, b, c, answer):
 
@@ -100,8 +104,31 @@ def parallel_intersection(r1, r2, d1, d2, answer):
     else:
         return False
     
-def differentiation():
-    pass
 
-def integration():
-    pass
+def parse_asciimath(ascii_expr):
+
+    asciimath2tex = ASCIIMath2Tex(log=False, inplace=True)
+    ascii_expr = asciimath2tex.translate(
+        ascii_expr,
+        displaystyle=False,
+        from_file=False,
+        pprint=False,
+    )
+
+    ascii_expr = ascii_expr[1:-1]
+    sympy_expr = parse_latex(ascii_expr)
+
+    print(sympy_expr)
+
+    return sympy_expr
+
+def substitute_and_evaluate(expr, values):
+    # Substitute values into the expression
+    substituted_expr = expr.subs(values)
+    # Evaluate the substituted expression
+    evaluated_result = substituted_expr.evalf()
+    return evaluated_result
+
+
+
+
