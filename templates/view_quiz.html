@@ -44,11 +44,12 @@
                 <p class="text-l font-medium">{{ question[0]['question'] }}</p>
                 <p class="text-gray-400">Topic: {{ question[0]['topic'] }}</p>
                 <p class="text-gray-400">Marks: {{ question[0]['marks'] }}</p>
+                <p class="text-gray-400">Correct Answer: {{ question[0]['correct_answer'] }}</p>
             </div>
             <form method="POST" class="mb-6" action="{{ url_for('quiz.question_submit', quiz_id=quiz_id, session_id=session_id, question_no=question_no)}}">
                 <input type="hidden" name="question_id" value="{{ question[0]['id'] }}" disabled>
                 <input type="hidden" name="marks" value="{{ question[0]['marks'] }}" disabled>
-                <input type="text" name="answer" id="answer" class="shadow-sm appearance-none border border-gray-600 rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 opacity-50 cursor-not-allowed" placeholder="Answer" disabled>
+                <input type="text" name="answer" id="answer" value="{{ question[0]['user_answer'] }}" class="shadow-sm appearance-none border border-gray-600 rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 opacity-50 cursor-not-allowed" placeholder="Answer" disabled>
                 <input type="submit" value="Submit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 opacity-50 cursor-not-allowed" disabled>
             </form>
         </div>
