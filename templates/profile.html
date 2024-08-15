@@ -4,36 +4,37 @@
     <div class="container mx-auto mt-10 p-6 max-w-4xl">
         <div class="bg-gray-800 rounded-lg shadow-lg p-6">
             <div class="flex items-center space-x-6">
-                <img src="https://via.placeholder.com/150" alt="Profile Picture" class="w-20 h-20 rounded-full">
+                <img src="https://via.placeholder.com/150" alt="Profile Picture" class="w-20 h-20 rounded-full border-2 border-gray-600">
                 <div>
-                    <p>Jovan Wee</p>
+                    <p class="text-xl font-semibold">Jovan Wee</p>
                     <p class="text-gray-400">Admin</p>
                     <p class="text-gray-400">25/13</p>
                 </div>
             </div>
+            <hr class="my-6 border-gray-600">
             <div>
-                <h5 class="text-lg font-bold mt-6">Account Settings</h5>
-                <div>
-                <button 
-                    class="bg-gray-900 shadow-lg hover:shadow-xl hover:bg-gray-700 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-left w-full mb-2"
-                    onclick="window.location.href='profile/set-email';" 
-                    aria-label="Change Email">
-                    <div class="text-lg font-semibold">Change Email</div>
-                </button>
-                <button 
-                class="bg-gray-900 shadow-lg hover:shadow-xl hover:bg-gray-700 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-left w-full mb-2"
-                onclick="window.location.href='profile/set-email';" 
-                aria-label="Change Email">
-                <div class="text-lg font-semibold">Change Password</div>
-                </button>
-                <button 
-                class="bg-gray-900 shadow-lg hover:shadow-xl hover:bg-gray-700 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-left w-full mb-2"
-                onclick="window.location.href='profile/set-email';" 
-                aria-label="Change Email">
-                <div class="text-lg font-semibold">Email Preferences</div>
-                </button>
+                <h5 class="text-2xl font-bold mt-6">Account Settings</h5>
+                <div class="mt-4">
+                    <button 
+                        class="bg-gray-700 shadow-lg hover:shadow-xl hover:bg-gray-600 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-left w-full mb-2"
+                        onclick="window.location.href='profile/set-email';" 
+                        aria-label="Change Email">
+                        <div class="text-lg font-semibold">Set Email Address</div>
+                    </button>
+                    <button 
+                        class="bg-gray-700 shadow-lg hover:shadow-xl hover:bg-gray-600 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-left w-full mb-2"
+                        onclick="window.location.href='profile/set-password';" 
+                        aria-label="Change Password">
+                        <div class="text-lg font-semibold">Change Password</div>
+                    </button>
+                    <button 
+                        class="bg-gray-700 shadow-lg hover:shadow-xl hover:bg-gray-600 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-left w-full mb-2"
+                        onclick="window.location.href='profile/email-preferences';" 
+                        aria-label="Email Preferences">
+                        <div class="text-lg font-semibold">Email Preferences</div>
+                    </button>
                 </div>
             </div>
-
+        </div>
     </div>
 {% include 'partials/footer.html' %}

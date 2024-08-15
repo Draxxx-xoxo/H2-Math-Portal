@@ -38,3 +38,13 @@ supabase: Client = create_client(url, key)
 @authorization_required
 def profile_main():
     return render_template('profile.html', title="Profile")
+
+@profile.route("/profile/set-password", methods=["GET", "POST"])
+@authorization_required
+def profile_password():
+    return render_template('profile_update_password.html', title="Profile")
+
+@profile.route("/profile/set-email", methods=["GET", "POST"])
+@authorization_required
+def profile_email():
+    return render_template('profile_update_email.html', title="Profile")
