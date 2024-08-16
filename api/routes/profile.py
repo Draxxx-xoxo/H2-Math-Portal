@@ -37,7 +37,17 @@ supabase: Client = create_client(url, key)
 @profile.route("/profile")
 @authorization_required
 def profile_main():
-    return render_template('profile.html', title="Profile")
+    data = supabase.table("student").select("*").eq("login_user", session['user']).execute()
+    user = data.data[0]
+
+    role_res = supabase.table("admin").select("*").eq("user", session['user']).execute()
+
+    if len(role_res.data) == 0:
+        user['role'] = "Student"
+    else:
+        user['role'] = "Admin"
+    
+    return render_template('profile.html', title="Profile", data=user)
 
 @profile.route("/profile/set-password", methods=["GET", "POST"])
 @authorization_required
