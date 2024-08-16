@@ -34,21 +34,33 @@ admin = Blueprint('admin', __name__,
 @admin.route('/add_user', methods=["GET", "POST"])
 @authorization_required
 def add_student():
+
+    cgs = supabase.table("cg").select("*").execute()
+    cgs = cgs.data
+    
     
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
         role = request.form['role']
+        cg = request.form['cg']
+        phone_num = request.form['phone-num']
+        first_name = request.form['firstname']
+        last_name = request.form['lastname']
         try:
             response = supabase.auth.sign_up(credentials={"email": email, "password": password})
-            #flash("Student added successfully", "success")
+            print(response)
+            login_user_id = response.user.id
+            print(login_user_id)
+            supabase.table("leaderboard").insert({"user": login_user_id}).execute()
+            supabase.table("student").insert({"cg": cg, "phone_number": phone_num, "name": first_name + " " + last_name, "login_user": login_user_id, "leaderboard_user": login_user_id }).execute()
+            flash("Student added successfully", "success")
             if role == "admin":
                 supabase.table("admin").insert({"user": response.user.id}).execute()
         except Exception as e:
-            print(e)
-            #flash(f"Error: {e}", "error")
+            flash(f"Error: {e}", "error")
 
-    return render_template('add_user.html', title="Add Student")
+    return render_template('add_user.html', title="Add Student" , cgs=cgs)
 
 @admin.route('/add_question', methods=["GET", "POST"])
 @authorization_required
