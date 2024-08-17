@@ -44,7 +44,11 @@ def start(quiz_id, session_id):
     res = supabase.table("session_quiz").select("is_active").eq("session_id", session_id).execute()
     is_active = res.data[0]['is_active']
 
-    return render_template('start_quiz.html', quiz_id=quiz_id, session_id=session_id, is_active=is_active ,title="Start Quiz")
+    quiz_res = supabase.table("quiz").select("title, description").eq("quiz_id", quiz_id).execute()
+    quiz_name = quiz_res.data[0]['title']
+    quiz_description = quiz_res.data[0]['description']
+
+    return render_template('start_quiz.html', quiz_id=quiz_id, session_id=session_id, is_active=is_active ,title="Start Quiz", quiz_name=quiz_name, quiz_description=quiz_description)
 
 # Initalise Timer    
 @quiz.route('/quiz/<quiz_id>/<session_id>/initalise', methods=["GET", "POST"])

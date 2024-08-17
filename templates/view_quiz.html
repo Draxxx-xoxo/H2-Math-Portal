@@ -44,7 +44,7 @@
                 <p class="text-l font-medium">{{ question[0]['question'] }}</p>
                 <p class="text-gray-400">Topic: {{ question[0]['topic'] }}</p>
                 <p class="text-gray-400">Marks: {{ question[0]['marks'] }}</p>
-                <p class="text-gray-400">Correct Answer: {{ question[0]['correct_answer'] }}</p>
+                <p class="text-gray-400">Correct Answer: `{{ question[0]['correct_answer'] }}`</p>
             </div>
             <form method="POST" class="mb-6" action="{{ url_for('quiz.question_submit', quiz_id=quiz_id, session_id=session_id, question_no=question_no)}}">
                 <input type="hidden" name="question_id" value="{{ question[0]['id'] }}" disabled>

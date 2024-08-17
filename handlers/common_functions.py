@@ -139,6 +139,9 @@ def values(id):
             "a": a.tolist(),
         })
 
+    if "correct_answer" not in value_dict:
+        value_dict["correct_answer"] = ""
+
     return value_dict
 
     
@@ -224,7 +227,7 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
     value_dict = value_dict.data[0][f"question_{question_no}"]
     correct = value_dict['correct']
     user_answer = value_dict['answer']
-    #correct_answer = value_dict['correct_answer']
+    correct_answer = value_dict['correct_answer']
 
     a = None
     b = None
@@ -268,7 +271,8 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
         "topic": topic,
         "id": question_id,
         "correct": correct,
-        "user_answer": user_answer
+        "user_answer": user_answer,
+        "correct_answer": correct_answer
     }
 
     questions_lis.append(question_dict)

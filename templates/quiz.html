@@ -62,7 +62,6 @@
             </form>
             {% endif %}
             <div class="mb-4">
-                <!-- Buttons for Math Symbols -->
                 <button onclick="insertMathSyntax('sqrt')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">√</button>
                 <button onclick="insertMathSyntax('a/b')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">a/b</button>
                 <button onclick="insertMathSyntax('^')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">^</button>
@@ -79,7 +78,6 @@
                 <button onclick="insertMathSyntax('in')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">∈</button>
                 <button onclick="insertMathSyntax('RR')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">R</button>
                 <button onclick="insertMathSyntax('((a), (b), (c))')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">Vector</button>
-                <!-- Add more buttons as needed -->
             </div>
             <div id="output" class="mt-6 p-4 bg-gray-700 rounded-lg"></div>
         </div>
@@ -88,13 +86,6 @@
         var targetTime = new Date("{{ target_time }}");
         var session_id = "{{ session_id }}"
         var quiz_id = "{{ quiz_id }}"
-
-
-        /*function insertMathSyntax(syntax) {
-            const answer = document.getElementById('answer');
-            answer.value += syntax;
-            renderMath();
-        }*/
 
         function insertMathSyntax(symbol) {
             const answer = document.getElementById('answer');
