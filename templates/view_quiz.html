@@ -16,12 +16,12 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-<body class="bg-black flex flex-col min-h-screen text-white" id="view-quiz">
+<body class="bg-black flex flex-col min-h-screen text-white pt-16" id="view-quiz">
     {% include 'partials/nav.html' %}
     <main class="flex-grow flex items-center justify-center py-8 px-4 w-full">
         <div class="max-w-4xl w-full bg-gray-800 rounded-lg shadow-lg p-8">
-            <h1 class="text-3xl font-semibold mb-4">Quiz</h1>
-            <p class="text-lg mb-6">View a quiz</p>
+            <h1 class="text-3xl font-semibold mb-4">{{ quiz_name }}</h1>
+            <p class="text-lg mb-6">{{ quiz_description }}</p>
             <hr class="my-6 border-gray-600">
             <div class="flex flex-wrap justify-center">
                 {% for i in range(1, len_question + 1) %}

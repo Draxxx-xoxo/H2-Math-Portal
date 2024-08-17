@@ -89,7 +89,7 @@ def add_quiz():
         description = request.form['description']
         time_limit = request.form['time-limit']
         try:
-            response = supabase.table("quiz").insert({"title": title, "description": description, "time_limit": time_limit}).execute()
+            response = supabase.table("quiz").insert({"title": title, "description": description, "time_limit": time_limit, "question_count": len(questions_id)}).execute()
             count = 1
             for id in questions_id:
                 supabase.table("quiz").update({f"question_{count}": id}).eq("quiz_id", response.data[0]['quiz_id']).execute()

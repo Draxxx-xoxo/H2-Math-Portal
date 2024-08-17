@@ -37,6 +37,9 @@ def string_format(string, id, a_, b_, c_, ab, ac):
         a = f"`l_1 = r = ((x_0), (y_0), (z_0)) + t((a), (b), (c))`"
         b = f"`l_2 = r = ((x_0), (y_0), (z_0)) + t((a), (b), (c))`"
         string = string.format(a = a, b = b)
+    elif id == "ba1ee710-9e2e-4941-9c43-da5194944cf0":
+        a = f"` (x - 2) / 4 = (y + 2) / 3 = (z - 1) / 2`"
+        string = string.format(a = a)
 
 
     return string
@@ -129,6 +132,13 @@ def values(id):
             "correct_answer": correct_answer
         })
 
+    elif id == "ba1ee710-9e2e-4941-9c43-da5194944cf0":
+        a = random.randint(2, 10, size=(6))
+
+        value_dict.update({
+            "a": a.tolist(),
+        })
+
     return value_dict
 
     
@@ -198,8 +208,10 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
 
     questions_lis = []
 
-    quiz = supabase.table("quiz").select(f"question_{question_no}", "question_count", "time_limit").eq("quiz_id", quiz_id).execute()
+    quiz = supabase.table("quiz").select(f"question_{question_no}", "question_count", "time_limit", "title", "description").eq("quiz_id", quiz_id).execute()
     quiz_len = quiz.data[0]['question_count']
+    quiz_name = quiz.data[0]['title']
+    quiz_desc = quiz.data[0]['description']
 
     question_id = quiz.data[0][f"question_{question_no}"]
     question = supabase.table("question").select("*").eq("question_id", question_id).execute()
@@ -245,6 +257,8 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
     elif question_id == "4420ab72-e9b9-4870-975f-fa3a4ea6da37":
         equation = value_dict['equation']
         a = equation
+    elif question_id ==  "ba1ee710-9e2e-4941-9c43-da5194944cf0":
+        pass
 
     question_ = string_format(question_, question_id, a, b, c, ab, ac)
 
@@ -261,7 +275,7 @@ def retrieve_question(quiz_id, question_no, supabase, session_id):
 
     correct_dict = retrieve_correct(quiz_id, question_no, supabase, session_id, quiz_len)
 
-    return questions_lis, quiz_len, correct_dict, end_time
+    return questions_lis, quiz_len, correct_dict, end_time, quiz_name, quiz_desc
 
 
 def check_answer(points, supabase, id, answer, session_id, question_no):
@@ -309,12 +323,6 @@ def check_answer(points, supabase, id, answer, session_id, question_no):
         else: 
             results = False
 
-        print(correct_answer)
-        print(input_answer)
-        print(correct_answer_parse)
-        print(correct_results)
-        print(final_results)
-
     elif id == "4420ab72-e9b9-4870-975f-fa3a4ea6da37":
         correct_answer = value_dict['correct_answer']
         correct_answer_parse = parse_asciimath(correct_answer)
@@ -330,14 +338,8 @@ def check_answer(points, supabase, id, answer, session_id, question_no):
             results = True
         else: 
             results = False
-        
-        print(correct_answer)
-        print(input_answer)
-        print(correct_answer_parse)
-        print(correct_results)
-        print(results)
-
-
+    elif id == "ba1ee710-9e2e-4941-9c43-da5194944cf0":
+        pass
 
     if results == True:
         add_points(points, supabase, user_id)

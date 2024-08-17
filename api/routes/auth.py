@@ -37,7 +37,6 @@ def login():
                 session['access_token'] = data.session.access_token
                 session['refresh_token'] = data.session.refresh_token
 
-                flash("Login successful!", "success")
                 return redirect('/dashboard')
             
             except Exception as e:

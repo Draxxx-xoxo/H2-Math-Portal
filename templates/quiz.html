@@ -16,12 +16,12 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-<body class="bg-black flex flex-col min-h-screen text-white" id="quiz">
+<body class="bg-black flex flex-col min-h-screen text-white pt-16" id="quiz">
     {% include 'partials/nav.html' %}
     <main class="flex-grow flex items-center justify-center py-8 px-4 w-full">
         <div class="max-w-4xl w-full bg-gray-800 rounded-lg shadow-lg p-8">
-            <h1 class="text-3xl font-semibold mb-4">Quiz</h1>
-            <p class="text-lg mb-6">Take a quiz</p>
+            <h1 class="text-3xl font-semibold mb-4">{{ quiz_name }}</h1>
+            <p class="text-lg mb-6">{{ quiz_description }}</p>
             <p id="countdown" class="text-lg mb-6"></p>
             <hr class="my-6 border-gray-600">
             <div class="flex flex-wrap justify-center">
@@ -61,11 +61,72 @@
                 <input type="submit" value="Submit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 opacity-50 cursor-not-allowed" disabled>
             </form>
             {% endif %}
+            <div class="mb-4">
+                <!-- Buttons for Math Symbols -->
+                <button onclick="insertMathSyntax('sqrt')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">√</button>
+                <button onclick="insertMathSyntax('a/b')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">a/b</button>
+                <button onclick="insertMathSyntax('^')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">^</button>
+                <button onclick="insertMathSyntax('pi')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">π</button>
+                <button onclick="insertMathSyntax('int')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">∫</button>
+                <button onclick="insertMathSyntax('log')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">log</button>
+                <button onclick="insertMathSyntax('ln')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">ln</button>
+                <button onclick="insertMathSyntax('(')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">(</button>
+                <button onclick="insertMathSyntax(')')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">)</button>
+                <button onclick="insertMathSyntax('alpha')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">α</button>
+                <button onclick="insertMathSyntax('lambda')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">λ</button>
+                <button onclick="insertMathSyntax('mu')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">μ</button>
+                <button onclick="insertMathSyntax('beta')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">β</button>
+                <button onclick="insertMathSyntax('in')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">∈</button>
+                <button onclick="insertMathSyntax('RR')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">R</button>
+                <button onclick="insertMathSyntax('((a), (b), (c))')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">Vector</button>
+                <!-- Add more buttons as needed -->
+            </div>
+            <div id="output" class="mt-6 p-4 bg-gray-700 rounded-lg"></div>
         </div>
     </main>
     <script type="text/javascript">
         var targetTime = new Date("{{ target_time }}");
         var session_id = "{{ session_id }}"
         var quiz_id = "{{ quiz_id }}"
+
+
+        /*function insertMathSyntax(syntax) {
+            const answer = document.getElementById('answer');
+            answer.value += syntax;
+            renderMath();
+        }*/
+
+        function insertMathSyntax(symbol) {
+            const answer = document.getElementById('answer');
+            const startPos = answer.selectionStart;
+            const endPos = answer.selectionEnd;
+            const textBefore = answer.value.substring(0, startPos);
+            const textAfter = answer.value.substring(endPos, answer.value.length);
+
+            // Insert the symbol at the cursor position
+            answer.value = textBefore + symbol + textAfter;
+
+            // Move the cursor to the end of the inserted symbol
+            answer.selectionStart = answer.selectionEnd = startPos + symbol.length;
+
+            // Trigger Math rendering
+            renderMath();
+        }
+        
+        // Event listener for real-time rendering
+        document.getElementById('answer').addEventListener('input', renderMath);
+        
+        // Function to render Math using MathJax
+        function renderMath() {
+            const answer = document.getElementById('answer').value;
+            const outputDiv = document.getElementById('output');
+        
+            // Use MathJax to render ASCII Math
+            outputDiv.innerHTML = "`" + answer + "`";
+            MathJax.typesetPromise([outputDiv]);
+        }
+        
+        // Initial rendering to handle default state
+        renderMath();
     </script>
     {% include 'partials/footer.html' %}
