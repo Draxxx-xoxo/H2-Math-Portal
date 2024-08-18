@@ -7,6 +7,7 @@ from functools import wraps  # Import wraps decorator
 
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY")
+
 supabase: Client = create_client(url, key)
 
 def authorization_required(f):
@@ -50,13 +51,26 @@ def login():
             except Exception as e:
                 flash(f"Error: {e}", "error")
 
-    if 'user' in session:
+    if 'user' in session and 'access_token' in session and 'refresh_token' in session:
         return redirect('/dashboard')
     
     return render_template('login.html', title="Login")
 
 @auth.route('/update-password', methods=['GET', 'POST'])
 def update_password():
+    
+    if request.method == 'POST':
+        password = request.form['password']
+        token = request.args.get('token')
+        try:
+            supabase.auth.verify_otp({'token_hash': token, 'type': 'email'})
+            supabase.auth.update_user(attributes={"password": password})
+            flash("Password updated successfully!", "success")
+            supabase.auth.sign_out()
+            return redirect('/login')
+        except Exception as e:
+            flash(f"Error: {e}", "error")
+
     return render_template('update_password.html', title="Update Password")
 
 @auth.route('/signout')
