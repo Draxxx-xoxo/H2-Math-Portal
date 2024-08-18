@@ -23,24 +23,24 @@ This website allows students to practice their H2 Mathematics questions. Quizzes
 - [WolframAlpha](https://www.wolframalpha.com) (API)
 - [Vercel](https://vercel.com/draxxxxoxos-projects) (Hosting)
 - [Sentry](https://sentry.io) (Error Tracking)
-- [Resend](https://resend.io) (Email Verification)
+- [Resend](https://resend.com) (Email Verification)
 - [Mathjax](https://www.mathjax.org) (Mathematical Equations)
 - [Tailwind CSS](https://tailwindcss.com) (CSS)
 - [JQuery](https://jquery.com) (JavaScript)
 
-It is build on the Flask framework with the following python libraries: Supabase, Numpy, Sentry, Sympy, Pytz, Requests, Antlr4-python3-runtime, Py_asciimath. I have used an open-source PostgreSQL database provided by Supabase to store the data and authenticate users. The website is hosted on Vercel. Resend is also used for email verification using the Supabase API. The frontend website is built with HTML with Jinja template engine, CSS, and JavaScript. Frotend APIs used are Mathjax, Tailwind CSS and JQuery.
+It is built on the Flask framework with the following Python libraries: Supabase, Numpy, Sentry, Sympy, Pytz, Requests, Antlr4-python3-runtime, and Py_asciimath. I have used an open-source PostgreSQL database provided by Supabase to store the data and authenticate users. The website is hosted on Vercel. Resend is also used for email verification using the Supabase API. The frontend website is built with HTML, Jinja template engine, CSS, and JavaScript. Frontend APIs used are Mathjax, Tailwind CSS and JQuery.
 
 ### User Authentication
-The user authentication is done using the Supabase API. The user can log in, and log out, reset their passwords and change their email. Access Tokens and Refresh Tokens which are JWT token are used to authenticate the user. Email verification is also done using the Supabase API and sent by Resend.
+The user authentication is done using the Supabase API. The user can log in, and log out, reset their passwords and change their email. Access Tokens and Refresh Tokens which are JWT tokens are used to authenticate the user. Email verification is also done using the Supabase API and sent by Resend.
 
 ### Leaderboard
-The leaderboard is updated everytime a user answers a question. The leaderboard is sorted by the score of the user.
+The leaderboard is updated every time a user answers a question. The leaderboard is sorted by the user's score.
 
 ### Quiz Generation
 The quiz generation is done by generating random values for each question. The random values are generated using numpy. The random values are then stored in the database and retrieved everytime the user answers the question. 
 
 ### Quiz Page
-For mathematical equations to be displayed on the website, mathjax is used to formate mathematical symbols and vectors. There are also buttons that will auto fill ASCIImath symbols into the input box and will render in realtime to see what the equation would look like. There is also a time that will check with the db time and the server time to determine the time reamining.
+For mathematical equations to be displayed on the website, mathjax is used to form mathematical symbols and vectors. Some buttons will auto-fill ASCIImath symbols into the input box and will render in real time to see what the equation would look like. There is also a time that will check with the db time and the server time to determine the time remaining.
 
 ### Answer Checking
 The answer checking is done by using the WolframAlpha API, numpy and sympy. WolframAlpha API helps with answering differentiation and integration questions. Answers are then stored in the database and retrieved everytime it checks the answer. For indefinately integral questions, sympy is used to check the answer. For vectors question numpy is used to check the answer.
@@ -52,7 +52,7 @@ The answer checking is done by using the WolframAlpha API, numpy and sympy. Wolf
 
 - Another problem I had was using Mathjax to render mathematical. At first all my equations were rendering as LaTeX math symbols. I had to change the configuration of Mathjax to render ASCIImath symbols ,for better understanding.
 
-- Trying to use Row Level Security in Supabase to only allow the user to see their own data was a challenge. I had to create a policy in the database to only allow the user to see their own data and ensure that the user was authenticated before they could see the data.
+- Trying to use Row Level Security in Supabase to only allow the user to see their data was a challenge. I had to create a policy in the database to only allow the user to see their data and ensure that the user was authenticated before they could see the data.
 
 - Deploying to Vercel was also a challenge. As it does not naturally support python, I had to use a workaround by using a python serverless function to run the python code. 
 
@@ -61,7 +61,7 @@ The answer checking is done by using the WolframAlpha API, numpy and sympy. Wolf
 - I was able to use the WolframAlpha API to solve differentiation and integration questions.
 - I was able to use Mathjax to render mathematical equations.
 - I was able to use Tailwind CSS to style the website.
-- The website look complete and is functional.
+- The website looks complete and is functional.
 ## What I learned
 I learned how to use Supabase to authenticate users and store data with Supabase. I also learned to use different APIs to achieve different functionality. WolframAlpha API to solve differentiation and integration questions. Mathjax to render mathematical equations and Tailwind CSS to style the website. I also learnt how to deploy a website on Vercel.
 
