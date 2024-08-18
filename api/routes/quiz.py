@@ -99,6 +99,17 @@ def question_submit(question_no, quiz_id, session_id):
     return redirect(url_for('quiz.quiz_question', question_no=int(question_no), quiz_id=quiz_id, session_id=session_id))
 
 
+@quiz.route('/quiz/<quiz_id>/<session_id>/end_view', methods=["POST"])
+@authorization_required
+def end_view(quiz_id, session_id):
+
+    quiz_res = supabase.table("quiz").select("title, description").eq("quiz_id", quiz_id).execute()
+    quiz_name = quiz_res.data[0]['title']
+    quiz_description = quiz_res.data[0]['description']
+    
+    return render_template('end_quiz.html', quiz_id=quiz_id, session_id=session_id, title="End Quiz", quiz_name=quiz_name, quiz_description=quiz_description)
+
+
 @quiz.route('/quiz/<quiz_id>/<session_id>/end', methods=["GET"])
 @authorization_required
 def end(quiz_id, session_id):

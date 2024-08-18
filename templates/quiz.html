@@ -25,9 +25,13 @@
             <p id="countdown" class="text-lg mb-6"></p>
             <hr class="my-6 border-gray-600">
             <div class="flex flex-wrap justify-center">
-                {% for i in range(1, len_question + 1) %}
+                {% for i in range(1, len_question + 2) %}
                     {% set question_key = 'question_' ~ i %}
-                    {% if correct_dict[question_key] == True %}
+                    {% if i == len_question + 1: %}
+                    <form method="POST" class="mr-2 mb-2" action="{{url_for('quiz.end_view', quiz_id=quiz_id, session_id=session_id)}}">
+                        <input type="submit" value="✓" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 text-sm rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </form>
+                    {% elif correct_dict[question_key] == True %}
                         <form method="POST" class="mr-2 mb-2" action="{{url_for('quiz.quiz_question', quiz_id=quiz_id, session_id=session_id, question_no=i )}}">
                             <input type="submit" value="{{ i }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 text-sm rounded focus:outline-none focus:ring-2 focus:ring-green-500">
                         </form>

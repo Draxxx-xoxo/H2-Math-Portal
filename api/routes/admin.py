@@ -49,14 +49,15 @@ def add_student():
         last_name = request.form['lastname']
         try:
             response = supabase.auth.sign_up(credentials={"email": email, "password": password})
-            print(response)
             login_user_id = response.user.id
-            print(login_user_id)
-            supabase.table("leaderboard").insert({"user": login_user_id}).execute()
-            supabase.table("student").insert({"cg": cg, "phone_number": phone_num, "name": first_name + " " + last_name, "login_user": login_user_id, "leaderboard_user": login_user_id }).execute()
-            flash("Student added successfully", "success")
             if role == "admin":
-                supabase.table("admin").insert({"user": response.user.id}).execute()
+                supabase.table("admin").insert({"user": login_user_id}).execute()
+            elif role == "student":
+                supabase.table("leaderboard").insert({"user": login_user_id}).execute()
+                supabase.table("student").insert({"cg": cg, "phone_number": phone_num, "name": first_name + " " + last_name, "login_user": login_user_id, "leaderboard_user": login_user_id }).execute()
+                flash("Student added successfully", "success")
+            
+            flash("Student added successfully", "success")
         except Exception as e:
             flash(f"Error: {e}", "error")
 
