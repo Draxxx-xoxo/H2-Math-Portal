@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template # type: ignore
 
 error = Blueprint('error', __name__,
-                        template_folder='../../templates')
+                        template_folder='../../templates/error')
 
 @error.app_errorhandler(404) 
 def not_found(e): 
