@@ -43,10 +43,5 @@ supabase: Client = create_client(url, key)
 def home():
     return render_template('home.html', title="Home")
 
-@app.route('/grab')
-def grab():
-    return render_template("mathjax.html")
-
-
 if __name__ == "__main__":
     app.run(debug=True)
