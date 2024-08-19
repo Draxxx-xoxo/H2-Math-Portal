@@ -45,19 +45,22 @@ def add_student():
         role = request.form['role']
         cg = request.form['cg']
         phone_num = request.form['phone-num']
-        first_name = request.form['firstname']
-        last_name = request.form['lastname']
+        first_name = request.form['firstname'].strip()
+        last_name = request.form['lastname'].strip()
         try:
             response = supabase.auth.sign_up(credentials={"email": email, "password": password})
             login_user_id = response.user.id
             if role == "admin":
+                supabase.table("teacher").insert({"user": login_user_id, "name": first_name + " " + last_name, "phone_number": phone_num, "cg": cg}).execute()
                 supabase.table("admin").insert({"user": login_user_id}).execute()
+                flash("Admin added successfully", "success")
             elif role == "student":
                 supabase.table("leaderboard").insert({"user": login_user_id}).execute()
                 supabase.table("student").insert({"cg": cg, "phone_number": phone_num, "name": first_name + " " + last_name, "login_user": login_user_id, "leaderboard_user": login_user_id }).execute()
                 flash("Student added successfully", "success")
-            
-            flash("Student added successfully", "success")
+            elif role == "teacher":
+                supabase.table("teacher").insert({"user": login_user_id, "name": first_name + " " + last_name, "phone_number": phone_num, "cg": cg}).execute()
+                flash("Teacher added successfully", "success")
         except Exception as e:
             flash(f"Error: {e}", "error")
 

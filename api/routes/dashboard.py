@@ -37,12 +37,24 @@ supabase: Client = create_client(url, key)
 @dashboard.route('/dashboard')
 @authorization_required 
 def dashboard_route():
-    response = supabase.table("student").select("cg").eq("login_user", session['user']).execute()
+
+    data = supabase.table("student").select("*", count="exact").eq("login_user", session['user']).execute()
+    admin_role_res = supabase.table("admin").select("*", count="exact").eq("user", session['user']).execute()
+    teacher_role_res = supabase.table("teacher").select("*", count="exact").eq("user", session['user']).execute()
+
+    role = ""
+
+    if admin_role_res.count != 0:
+        role = "admin"
+    elif teacher_role_res.count != 0:
+        response = supabase.table("teacher").select("cg").eq("user", session['user']).execute()
+        role = "teacher"
+    else:
+        response = supabase.table("student").select("cg").eq("login_user", session['user']).execute()
+        role = "student"
+
     cg = (response.data[0]['cg'])
     cg_link = cg.replace("/", "_")
-
-    role_res = supabase.table("admin").select("*").eq("user", session['user']).execute()
-    role = ""
 
     quiz_res = supabase.table("quiz").select("title, description, quiz_id").order("id", desc=False).execute()
     quiz_list = quiz_res.data
@@ -55,10 +67,6 @@ def dashboard_route():
         lis_quiz_id[1][quiz['quiz_id']] = quiz['session_id']
         lis_quiz_id[2][quiz['quiz_id']] = quiz['is_completed']
 
-    if len(role_res.data) == 0:
-        role = "user"
-    else:
-        role = "admin"    
 
     return render_template("dashboard.html", cg=cg, cg_link=cg_link, title="Dashboard", role=role, quiz_list=quiz_list, created_quiz=lis_quiz_id)
 
