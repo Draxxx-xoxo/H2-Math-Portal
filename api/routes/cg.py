@@ -7,7 +7,7 @@ from datetime import datetime
 from functools import wraps  # Import wraps decorator
 
 cg = Blueprint('cg', __name__,
-                        template_folder='../../templates')
+                        template_folder='../../templates/cg')
 
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY")

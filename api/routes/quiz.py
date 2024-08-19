@@ -8,7 +8,7 @@ import numpy as np
 from numpy import random
 
 quiz = Blueprint('quiz', __name__,
-                        template_folder='../../templates')
+                        template_folder='../../templates/quiz')
 
 
 url: str = os.environ.get("SUPABASE_URL")
