@@ -43,18 +43,29 @@
                 <div class="bg-gray-800 rounded-lg shadow-lg p-6">
                     <h2 class="text-2xl font-bold mb-4">{{ quiz['title'] }}</h2>
                     <p class="mb-4">{{ quiz['description'] }}</p>
-                    {% if quiz['quiz_id'] in created_quiz[0] and created_quiz[2][quiz['quiz_id']] == True: %}
-                    <form method="POST" action="/quiz/{{ quiz['quiz_id'] }}/{{ created_quiz[1][quiz['quiz_id']] }}/view/1">
-                        <input type="submit" value="View Completed Quiz" class="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700">
-                    </form>
-                    {% elif quiz['quiz_id'] in created_quiz[0]: %}
-                    <form method="POST" action="/quiz/{{ quiz['quiz_id'] }}/{{ created_quiz[1][quiz['quiz_id']] }}/start">
-                        <input type="submit" value="Continue Quiz" class="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700">
-                    </form>
-                    {% else %}
-                    <form method="POST" action="/quiz/{{ quiz['quiz_id'] }}/create_session">
-                        <input type="submit" value="Start Quiz" class="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700">
-                    </form>
+                    {% if role == "teacher" %}
+                        <div class="flex space-x-4">
+                            <form method="POST" action="/quiz/{{ quiz['quiz_id'] }}/{{ created_quiz[1][quiz['quiz_id']] }}/view/1">
+                                <input type="submit" value="View Quiz" class="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700">
+                            </form>
+                            <form method="POST" action="/quiz/{{ quiz['quiz_id'] }}/completetion">
+                                <input type="submit" value="View Class Completion" class="bg-teal-500 text-white py-2 px-4 rounded hover:bg-teal-700">
+                            </form>
+                        </div>
+                    {% elif role == "student" %}
+                        {% if quiz['quiz_id'] in created_quiz[0] and created_quiz[2][quiz['quiz_id']] == True: %}
+                        <form method="POST" action="/quiz/{{ quiz['quiz_id'] }}/{{ created_quiz[1][quiz['quiz_id']] }}/view/1">
+                            <input type="submit" value="View Completed Quiz" class="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700">
+                        </form>
+                        {% elif quiz['quiz_id'] in created_quiz[0]: %}
+                        <form method="POST" action="/quiz/{{ quiz['quiz_id'] }}/{{ created_quiz[1][quiz['quiz_id']] }}/start">
+                            <input type="submit" value="Continue Quiz" class="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700">
+                        </form>
+                        {% else %}
+                        <form method="POST" action="/quiz/{{ quiz['quiz_id'] }}/create_session">
+                            <input type="submit" value="Start Quiz" class="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700">
+                        </form>
+                        {% endif %}
                     {% endif %}
                 </div>
                 {% endfor %}
