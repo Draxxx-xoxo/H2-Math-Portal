@@ -119,7 +119,7 @@ def question_submit(question_no, quiz_id, session_id):
     
     return redirect(url_for('quiz.quiz_question', question_no=int(question_no), quiz_id=quiz_id, session_id=session_id))
 
-@quiz.route('/quiz/<quiz_id>/view_completion', methods=["GET"])
+@quiz.route('/quiz/<quiz_id>/view_completion', methods=["GET", "POST"])
 @authorization_required
 @check_teacher
 def view_completion(quiz_id):
