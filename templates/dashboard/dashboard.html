@@ -43,7 +43,7 @@
                 <div class="bg-gray-800 rounded-lg shadow-lg p-6">
                     <h2 class="text-2xl font-bold mb-4">{{ quiz['title'] }}</h2>
                     <p class="mb-4">{{ quiz['description'] }}</p>
-                    {% if role == "teacher" %}
+                    {% if role == "teacher" or role == "admin" %}
                         <div class="flex space-x-4">
                             <form method="POST" action="/quiz/{{ quiz['quiz_id'] }}/view_completion">
                                 <input type="submit" value="View Class Completion" class="bg-teal-500 text-white py-2 px-4 rounded hover:bg-teal-700">
