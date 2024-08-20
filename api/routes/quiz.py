@@ -4,8 +4,6 @@ from supabase import create_client, Client
 from datetime import datetime
 from functools import wraps  # Import wraps decorator
 from handlers.common_functions import initalise_quiz, create_session, retrieve_question, check_answer
-import numpy as np
-from numpy import random
 
 quiz = Blueprint('quiz', __name__,
                         template_folder='../../templates/quiz')
@@ -102,7 +100,7 @@ def view_completion(quiz_id):
     
     quiz_res = supabase.rpc("teacher_view_completion_by_quiz", {"quiz_uuid": quiz_id}).execute()
     sessions = quiz_res.data
-    
+
     return render_template('view_completed.html', quiz_id=quiz_id, title="Quiz Completion", sessions=sessions) #, quiz_name=quiz_name, quiz_description=quiz_description)
 
 
