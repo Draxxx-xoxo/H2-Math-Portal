@@ -1,9 +1,13 @@
 # H2 Math Portal
 
 ## How to login
-### __User__
+### __Student__
 - Email: student@example.com
 - Password: ExampleStudent
+
+### __Teacher__
+- Email: teacher@example.com
+- Password: ExampleTeacher
 
 ### __Admin__
 - Please ask me for the email and password if you would like to test out admin
