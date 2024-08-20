@@ -25,6 +25,25 @@ def authorization_required(f):
         return f(*args, **kwargs)  # Allow access to the route
     return decorated_function
 
+def check_teacher(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        teacher_res = supabase.table("teacher").select('*', count="exact").eq("user", session['user']).execute()
+        if teacher_res.count == 0:
+            abort(403)
+        return f(*args, **kwargs)  # Allow access to the route
+    return decorated_function
+
+def check_student(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        session_id = str(kwargs.get('session_id'))
+        res = supabase.table("session_quiz").select("*", count="exact").eq("session_id", session_id).eq("user", session['user']).execute()
+        if res.count == 0:
+            abort(403)
+        return f(*args, **kwargs)  # Allow access to the route
+    return decorated_function
+
 
 # Creates Session and Set Values
 @quiz.route('/quiz/<quiz_id>/create_session', methods=["POST"])
@@ -37,6 +56,7 @@ def dashboard_route(quiz_id):
 # Starting Page
 @quiz.route('/quiz/<quiz_id>/<session_id>/start', methods=["GET", "POST"])
 @authorization_required
+@check_student
 def start(quiz_id, session_id):
 
     res = supabase.table("session_quiz").select("is_active").eq("session_id", session_id).execute()
@@ -51,6 +71,7 @@ def start(quiz_id, session_id):
 # Initalise Timer    
 @quiz.route('/quiz/<quiz_id>/<session_id>/initalise', methods=["GET", "POST"])
 @authorization_required
+@check_student
 def initalise(quiz_id, session_id):
 
     initalise_quiz(supabase, session_id, quiz_id)
@@ -59,6 +80,7 @@ def initalise(quiz_id, session_id):
 
 @quiz.route('/quiz/<quiz_id>/<session_id>/<question_no>', methods=["GET", "POST"])
 @authorization_required
+@check_student
 def quiz_question(quiz_id, session_id, question_no):
 
     if question_no.isdigit():
@@ -70,6 +92,8 @@ def quiz_question(quiz_id, session_id, question_no):
 
 @quiz.route('/quiz/<quiz_id>/<session_id>/view/<question_no>', methods=["GET", "POST"])
 @authorization_required
+@check_teacher
+@check_student
 def view_quiz_question(quiz_id, session_id, question_no):
 
     if question_no.isdigit():
@@ -81,6 +105,7 @@ def view_quiz_question(quiz_id, session_id, question_no):
 
 @quiz.route('/quiz/<quiz_id>/<session_id>/<question_no>/submit', methods=["POST"])
 @authorization_required
+@check_student
 def question_submit(question_no, quiz_id, session_id):
 
     id = request.form['question_id']
@@ -96,6 +121,7 @@ def question_submit(question_no, quiz_id, session_id):
 
 @quiz.route('/quiz/<quiz_id>/view_completion', methods=["GET"])
 @authorization_required
+@check_teacher
 def view_completion(quiz_id):
     
     quiz_res = supabase.rpc("teacher_view_completion_by_quiz", {"quiz_uuid": quiz_id}).execute()
@@ -106,6 +132,7 @@ def view_completion(quiz_id):
 
 @quiz.route('/quiz/<quiz_id>/<session_id>/end_view', methods=["POST"])
 @authorization_required
+@check_student
 def end_view(quiz_id, session_id):
 
     quiz_res = supabase.table("quiz").select("title, description").eq("quiz_id", quiz_id).execute()
@@ -117,6 +144,7 @@ def end_view(quiz_id, session_id):
 
 @quiz.route('/quiz/<quiz_id>/<session_id>/end', methods=["GET"])
 @authorization_required
+@check_student
 def end(quiz_id, session_id):
     
     res = supabase.table("session_quiz").select("is_active").eq("session_id", session_id).execute()

@@ -45,6 +45,7 @@ def dashboard_route():
     role = ""
 
     if admin_role_res.count != 0:
+        response = supabase.table("teacher").select("cg").eq("user", session['user']).execute()
         role = "admin"
     elif teacher_role_res.count != 0:
         response = supabase.table("teacher").select("cg").eq("user", session['user']).execute()
