@@ -45,9 +45,6 @@
                     <p class="mb-4">{{ quiz['description'] }}</p>
                     {% if role == "teacher" %}
                         <div class="flex space-x-4">
-                            <form method="POST" action="/quiz/{{ quiz['quiz_id'] }}/{{ created_quiz[1][quiz['quiz_id']] }}/view/1">
-                                <input type="submit" value="View Quiz" class="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700">
-                            </form>
                             <form method="POST" action="/quiz/{{ quiz['quiz_id'] }}/completetion">
                                 <input type="submit" value="View Class Completion" class="bg-teal-500 text-white py-2 px-4 rounded hover:bg-teal-700">
                             </form>

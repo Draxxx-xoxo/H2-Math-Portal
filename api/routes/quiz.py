@@ -81,8 +81,6 @@ def view_quiz_question(quiz_id, session_id, question_no):
     else:
         abort(404)
 
-
-
 @quiz.route('/quiz/<quiz_id>/<session_id>/<question_no>/submit', methods=["POST"])
 @authorization_required
 def question_submit(question_no, quiz_id, session_id):
@@ -97,6 +95,15 @@ def question_submit(question_no, quiz_id, session_id):
         return redirect(url_for('quiz.quiz_question', question_no=int(question_no) + 1, quiz_id=quiz_id, session_id=session_id)) 
     
     return redirect(url_for('quiz.quiz_question', question_no=int(question_no), quiz_id=quiz_id, session_id=session_id))
+
+@quiz.route('/quiz/<quiz_id>/view_completion', methods=["GET"])
+@authorization_required
+def view_completion(quiz_id):
+    
+    quiz_res = supabase.rpc("teacher_view_completion_by_quiz", {"quiz_uuid": quiz_id}).execute()
+    sessions = quiz_res.data
+    
+    return render_template('view_completed.html', quiz_id=quiz_id, title="Quiz Completion", sessions=sessions) #, quiz_name=quiz_name, quiz_description=quiz_description)
 
 
 @quiz.route('/quiz/<quiz_id>/<session_id>/end_view', methods=["POST"])
