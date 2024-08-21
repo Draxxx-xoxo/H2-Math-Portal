@@ -57,7 +57,7 @@ async function generatecode() {
         code += possible.charAt(Math.floor(Math.random() * possible.length));
 
 
-    const response = await fetch('http://computing.draxx.me/utilities/insert_code', {
+    const response = await fetch('https://computing.draxx.me/utilities/insert_code', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ async function generatecode() {
 async function deletecode() {
     var code = document.getElementById("classcode").innerHTML;
 
-    const response = await fetch('http://computing.draxx.me/utilities/delete_code', {
+    const response = await fetch('https://computing.draxx.me/utilities/delete_code', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
