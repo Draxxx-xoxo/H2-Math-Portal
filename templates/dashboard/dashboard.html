@@ -19,13 +19,23 @@
                 <div class="text-lg font-semibold">View Class</div>
                 <p class="text-sm text-gray-400 mt-2">Manage and view your classes.</p>
             </button>
-            <button 
+            {% if role == "teacher" or role == "admin" %}
+                <button 
+                    class="bg-gray-800 shadow-lg hover:shadow-xl hover:bg-gray-700 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-center"
+                    onclick="window.location.href='attendance/teacher';" 
+                    aria-label="Mark Attendance">
+                    <div class="text-lg font-semibold">Mark Attendance</div>
+                    <p class="text-sm text-gray-400 mt-2">Track attendance quickly.</p>
+                </button>
+            {% elif role == "student" %}
+                <button 
                 class="bg-gray-800 shadow-lg hover:shadow-xl hover:bg-gray-700 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-center"
-                onclick="window.location.href='cg/{{cg_link}}/attendance';" 
+                onclick="window.location.href='attendance/student';" 
                 aria-label="Mark Attendance">
                 <div class="text-lg font-semibold">Mark Attendance</div>
                 <p class="text-sm text-gray-400 mt-2">Track attendance quickly.</p>
-            </button>
+                </button>
+            {% endif %}
             <button 
                 class="bg-gray-800 shadow-lg hover:shadow-xl hover:bg-gray-700 transition-all duration-300 rounded-md p-4 text-blue-500 hover:text-blue-300 text-center"
                 aria-label="Comming Soon">

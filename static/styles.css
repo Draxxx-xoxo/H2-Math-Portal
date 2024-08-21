@@ -127,3 +127,7 @@ select {
 #reset-form {
   display: none;
 }
+
+#deletecode {
+  display: none;
+}

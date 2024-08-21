@@ -49,4 +49,58 @@ function showLoginForm() {
     document.getElementById('reset-form').style.display = 'none';
 }
 
+async function generatecode() {
+    var code = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < 6; i++)
+        code += possible.charAt(Math.floor(Math.random() * possible.length));
+
+
+    const response = await fetch('http://localhost:3000/utilities/insert_code', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+
+        body: JSON.stringify({"code": code})
+
+    });
+
+    if (response.ok) {
+        console.log('Code sent successfully');
+    } else {
+        console.error('Error sending code');
+    }
+
+    document.getElementById('classcode').innerHTML = code;
+
+    document.getElementById('generatecode').style.display = 'none';
+    document.getElementById('deletecode').style.display = 'block';
+}
+
+async function deletecode() {
+    var code = document.getElementById("classcode").innerHTML;
+
+    const response = await fetch('http://localhost:3000/utilities/delete_code', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+
+        body: JSON.stringify({"code": code})
+
+    });
+
+
+    if (response.ok) {
+        console.log('Code sent successfully');
+    } else {
+        console.error('Error sending code');
+    }
+    
+    document.getElementById('classcode').innerHTML = '';
+    document.getElementById('deletecode').style.display = 'none';
+    document.getElementById('generatecode').style.display = 'block';
+}
 
