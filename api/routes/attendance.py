@@ -61,4 +61,16 @@ def student_attendance():
 @authorization_required
 @check_teacher
 def teacher_attendance():
-    return render_template('teacher_attendance.html', title="Teacher Attendance")
+    res = supabase.table('teacher').select("*").eq("user", session['user']).execute()
+    cg = res.data[0]['cg']
+    cg = cg.replace("/", "_")
+    return render_template('teacher_attendance.html', title="Teacher Attendance", cg=cg)
+
+@attendance.route("/overview/<cg>/<code>")
+@authorization_required
+@check_teacher
+def overview(cg, code):
+    cg = cg.replace("_", "/")
+    res = supabase.rpc("get_students_with_generated_code", {"class": cg, "code": code}).execute()
+    students = res.data
+    return render_template('attendance_overview.html', title="Teacher Attendance", code=code, students=students)

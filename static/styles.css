@@ -128,6 +128,6 @@ select {
   display: none;
 }
 
-#deletecode {
+#deletecode, #overview {
   display: none;
 }

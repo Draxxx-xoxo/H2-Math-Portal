@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, Blueprint, session, redirect, request # type: ignore
+from flask import Flask, jsonify, Blueprint, session, redirect, request, abort # type: ignore
 import os
 from datetime import datetime
 import pytz
@@ -20,6 +20,15 @@ def authorization_required(f):
             res = supabase.auth.set_session(access_token, refresh_token)
         except:
             return redirect('/login')  # Redirect to login if not authorized
+        return f(*args, **kwargs)  # Allow access to the route
+    return decorated_function
+
+def check_teacher(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        teacher_res = supabase.table("teacher").select('*', count="exact").eq("user", session['user']).execute()
+        if teacher_res.count == 0:
+            abort(403)
         return f(*args, **kwargs)  # Allow access to the route
     return decorated_function
 
@@ -52,4 +61,15 @@ def delete_code():
         return "Code Deleted", 200
     except Exception as e:
         return str(e), 500
+
+@utility.route('/fetch_env', methods=["GET"])
+@authorization_required
+@check_teacher
+def fetch_env():
+    return jsonify({
+        'SUPABASE_URL': url,
+        'NEXT_PUBLIC_SUPABASE_ANON_KEY': key,
+        'ACCESS_TOKEN': session['access_token'],
+        'REFRESH_TOKEN': session['refresh_token'],
+    })
     

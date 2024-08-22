@@ -57,7 +57,7 @@ async function generatecode() {
         code += possible.charAt(Math.floor(Math.random() * possible.length));
 
 
-    const response = await fetch('https://computing.draxx.me/utilities/insert_code', {
+    const response = await fetch('/utilities/insert_code', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -77,12 +77,19 @@ async function generatecode() {
 
     document.getElementById('generatecode').style.display = 'none';
     document.getElementById('deletecode').style.display = 'block';
+    document.getElementById('overview').style.display = 'block';
+
+    console.log(cg);
+
+    document.getElementById('overview').onclick = function() {
+        window.location.href = `overview/${cg}/${code}`;
+    };
 }
 
 async function deletecode() {
     var code = document.getElementById("classcode").innerHTML;
 
-    const response = await fetch('https://computing.draxx.me/utilities/delete_code', {
+    const response = await fetch('/utilities/delete_code', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -102,5 +109,6 @@ async function deletecode() {
     document.getElementById('classcode').innerHTML = '';
     document.getElementById('deletecode').style.display = 'none';
     document.getElementById('generatecode').style.display = 'block';
+    document.getElementById('overview').style.display = 'none';
 }
 

@@ -5,6 +5,12 @@
         <h1 class="text-2xl font-bold mb-6 text-center">Generate Check-In Code</h1>
         <div id="classcode" class="text-4xl text-center mb-6"> </div>
         <button id="generatecode" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="generatecode()">Generate Code</button>
-        <button id="deletecode" class="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="deletecode()">Delete Code</button>
+        <div class="flex flex-col space-y-4 max-w-sm mx-auto">
+            <button id="deletecode" class="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded shadow-lg transform transition" onclick="deletecode()">Delete Code</button>
+            <button id="overview" class="w-full bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded shadow-lg transform transition">View Check In</button>
+        </div>
     </div>
+    <script>
+        const cg = "{{ cg }}"
+    </script>
 {% include 'partials/footer.html' %}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.min.css') }}"> 
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    </head>
+<body class="flex items-center justify-center h-screen">
+    {% include 'partials/nav.html' %}
+    <div class="container mx-auto py-8">
+        <h1 class="text-2xl font-bold mb-6">Session Completions</h1>
+        <table class="table-auto w-full bg-gray-700">
+            <thead>
+                <tr class="bg-gray-600">
+                    <th class="px-4 py-2">Name</th>
+                    <th class="px-4 py-2">CG</th>
+                    <th class="px-4 py-2">Checked In?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Example Row -->
+                {% for student in students %}
+                <tr class="border-t border-gray-600">
+                    <td id="{{ student.login_user }}" class="px-4 py-2">{{ student.name }}</td>
+                    <td class="px-4 py-2">{{ student.cg }}</td>
+                    {% if student.generated_code == None %}
+                        <td id="{{ student.login_user }}_checkin" class="px-4 py-2">No</td>
+                    {% else %}
+                        <td class="px-4 py-2">Yes</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        async function fetchEnvironment() {
+            try {
+                const response = await fetch('/utilities/fetch_env');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching environment variables:', error);
+                throw error;
+            }
+        }
+
+        function setupSupabase(supabaseUrl, supabaseKey, accessToken, refreshToken, code) {
+            const { createClient } = supabase;
+            const supabaseClient = createClient(supabaseUrl, supabaseKey);
+
+            // Set session
+            supabaseClient.auth.setSession({"access_token": accessToken, "refresh_token": refreshToken }).then(({ data1, error }) => {
+                if (error) {
+                    console.error('Error setting session:', error);
+                    return;
+                }
+
+                // Subscribe to channel
+                const channelA = supabaseClient
+                    .channel('schema-db-changes')
+                    .on(
+                        'postgres_changes',
+                        {
+                            event: 'INSERT',
+                            schema: 'public',
+                            table: 'attendance',
+                            filter: `generated_code=eq.${code}`
+                        },
+                        (payload) => {
+                            const newRecord = payload.new;
+                            const loginUser = newRecord.user;
+                            const checkin = document.getElementById(`${loginUser}_checkin`);
+                            if (checkin) {
+                                checkin.innerHTML = "Yes";
+                            }
+                        }
+                    )
+                    .subscribe();
+            }).catch(error => {
+                console.error('Error setting session:', error);
+            });
+        }
+
+        async function init() {
+            try {
+                const data = await fetchEnvironment();
+                const supabaseKey = data.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+                const supabaseUrl = data.SUPABASE_URL;
+                const accessToken = data.ACCESS_TOKEN;
+                const refreshToken = data.REFRESH_TOKEN;
+                const code = "{{ code }}";
+                setupSupabase(supabaseUrl, supabaseKey, accessToken, refreshToken, code);
+            } catch (error) {
+                console.error('Initialization error:', error);
+            }
+        }
+
+        init().then(() => {
+            console.log('Initialization complete');
+        }).catch((error) => {
+            console.error('Initialization failed:', error);
+        });
+
+    </script>
+{% include 'partials/footer.html' %}
