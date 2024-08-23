@@ -45,12 +45,15 @@ def dashboard_route():
     role = ""
 
     if admin_role_res.count != 0:
+        name = teacher_role_res.data[0]['name']
         response = supabase.table("teacher").select("cg").eq("user", session['user']).execute()
         role = "admin"
     elif teacher_role_res.count != 0:
+        name = teacher_role_res.data[0]['name']
         response = supabase.table("teacher").select("cg").eq("user", session['user']).execute()
         role = "teacher"
     else:
+        name = data.data[0]['name']
         response = supabase.table("student").select("cg").eq("login_user", session['user']).execute()
         role = "student"
 
@@ -69,6 +72,6 @@ def dashboard_route():
         lis_quiz_id[2][quiz['quiz_id']] = quiz['is_completed']
 
 
-    return render_template("dashboard.html", cg=cg, cg_link=cg_link, title="Dashboard", role=role, quiz_list=quiz_list, created_quiz=lis_quiz_id)
+    return render_template("dashboard.html", cg=cg, cg_link=cg_link, title="Dashboard", role=role, quiz_list=quiz_list, created_quiz=lis_quiz_id, name=name)
 
 
