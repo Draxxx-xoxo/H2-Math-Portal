@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     if (document.getElementById('quiz')) {
 
         function checkServerTime() {
-            fetch('http://computing.draxx.me/utilities/current_time')
+            fetch('/utilities/current_time')
                 .then(response => response.json())
                 .then(data => {
                     

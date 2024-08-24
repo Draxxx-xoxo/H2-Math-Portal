@@ -92,8 +92,6 @@ def quiz_question(quiz_id, session_id, question_no):
 
 @quiz.route('/quiz/<quiz_id>/<session_id>/view/<question_no>', methods=["GET", "POST"])
 @authorization_required
-@check_teacher
-@check_student
 def view_quiz_question(quiz_id, session_id, question_no):
 
     if question_no.isdigit():
