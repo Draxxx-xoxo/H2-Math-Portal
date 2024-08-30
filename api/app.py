@@ -2,7 +2,6 @@ from flask import Flask, redirect, render_template, session, url_for, flash, jso
 import os
 import requests # type: ignore
 import sentry_sdk # type: ignore
-from datetime import datetime
 from supabase import create_client, Client
 from api.routes.dashboard import dashboard
 from api.routes.auth import auth
@@ -46,4 +45,4 @@ def home():
     return render_template('home.html', title="Home")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
