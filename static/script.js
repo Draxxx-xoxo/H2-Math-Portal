@@ -49,6 +49,12 @@ function showLoginForm() {
     document.getElementById('reset-form').style.display = 'none';
 }
 
+function toggleDarkMode() {
+    const htmlElement = document.documentElement;
+    const isDarkMode = htmlElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+}
+
 async function generatecode() {
     var code = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

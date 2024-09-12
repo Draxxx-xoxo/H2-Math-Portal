@@ -44,5 +44,9 @@ supabase: Client = create_client(url, key)
 def home():
     return render_template('home.html', title="Home")
 
+@app.route('/test')
+def test():
+    return render_template('test.html', title="Test")
+
 if __name__ == "__main__":
     app.run()
