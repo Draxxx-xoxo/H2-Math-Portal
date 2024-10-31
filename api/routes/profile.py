@@ -7,7 +7,7 @@ from datetime import datetime
 from functools import wraps  # Import wraps decorator
 
 profile = Blueprint('profile', __name__,
-                        template_folder='../../templates')
+                        template_folder='../../templates/profile')
 
 def is_authorized():
     if 'user' not in session:
@@ -37,15 +37,20 @@ supabase: Client = create_client(url, key)
 @profile.route("/profile")
 @authorization_required
 def profile_main():
-    data = supabase.table("student").select("*").eq("login_user", session['user']).execute()
-    user = data.data[0]
+    data = supabase.table("student").select("*", count="exact").eq("login_user", session['user']).execute()
+    admin_role_res = supabase.table("admin").select("*", count="exact").eq("user", session['user']).execute()
+    teacher_role_res = supabase.table("teacher").select("*", count="exact").eq("user", session['user']).execute()
 
-    role_res = supabase.table("admin").select("*").eq("user", session['user']).execute()
 
-    if len(role_res.data) == 0:
-        user['role'] = "Student"
-    else:
+    if admin_role_res.count != 0:
+        user = teacher_role_res.data[0]
         user['role'] = "Admin"
+    elif teacher_role_res.count != 0:
+        user = teacher_role_res.data[0]
+        user['role'] = "Teacher"
+    else:
+        user = data.data[0]
+        user['role'] = "Student"
     
     return render_template('profile.html', title="Profile", data=user)
 

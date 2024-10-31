@@ -23,7 +23,7 @@ def authorization_required(f):
     return decorated_function
 
 auth = Blueprint('auth', __name__,
-                        template_folder='../../templates')
+                        template_folder='../../templates/auth')
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -52,7 +52,13 @@ def login():
                 flash(f"Error: {e}", "error")
 
     if 'user' in session and 'access_token' in session and 'refresh_token' in session:
-        return redirect('/dashboard')
+        try:
+            access_token = session['access_token']
+            refresh_token = session['refresh_token']
+            res = supabase.auth.set_session(access_token, refresh_token)
+            return redirect('/dashboard')
+        except:
+            return redirect('/signout')  # Redirect to login if not authorized
     
     return render_template('login.html', title="Login")
 
@@ -73,8 +79,7 @@ def update_password():
 
     return render_template('update_password.html', title="Update Password")
 
-@auth.route('/signout')
-@authorization_required 
+@auth.route('/signout') 
 def signout():
     try:
         supabase.auth.sign_out()

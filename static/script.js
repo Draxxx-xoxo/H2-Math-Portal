@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     if (document.getElementById('quiz')) {
 
         function checkServerTime() {
-            fetch('http://computing.draxx.me/utilities/current_time')
+            fetch('/utilities/current_time')
                 .then(response => response.json())
                 .then(data => {
                     
@@ -49,4 +49,72 @@ function showLoginForm() {
     document.getElementById('reset-form').style.display = 'none';
 }
 
+function toggleDarkMode() {
+    const htmlElement = document.documentElement;
+    const isDarkMode = htmlElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+}
+
+async function generatecode() {
+    var code = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < 6; i++)
+        code += possible.charAt(Math.floor(Math.random() * possible.length));
+
+
+    const response = await fetch('/utilities/insert_code', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+
+        body: JSON.stringify({"code": code})
+
+    });
+
+    if (response.ok) {
+        console.log('Code sent successfully');
+    } else {
+        console.error('Error sending code');
+    }
+
+    document.getElementById('classcode').innerHTML = code;
+
+    document.getElementById('generatecode').style.display = 'none';
+    document.getElementById('deletecode').style.display = 'block';
+    document.getElementById('overview').style.display = 'block';
+
+    console.log(cg);
+
+    document.getElementById('overview').onclick = function() {
+        window.location.href = `overview/${cg}/${code}`;
+    };
+}
+
+async function deletecode() {
+    var code = document.getElementById("classcode").innerHTML;
+
+    const response = await fetch('/utilities/delete_code', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+
+        body: JSON.stringify({"code": code})
+
+    });
+
+
+    if (response.ok) {
+        console.log('Code sent successfully');
+    } else {
+        console.error('Error sending code');
+    }
+    
+    document.getElementById('classcode').innerHTML = '';
+    document.getElementById('deletecode').style.display = 'none';
+    document.getElementById('generatecode').style.display = 'block';
+    document.getElementById('overview').style.display = 'none';
+}
 

@@ -1,9 +1,9 @@
 {% include 'partials/header.html' %}
-<body class="bg-black text-white min-h-screen flex flex-col items-center justify-center pt-16">
+<body class="bg-neutral-50 text-black dark:bg-black dark:text-white min-h-screen flex flex-col items-center justify-center pt-16">
     {% include 'partials/nav.html' %}
     <div class="flex justify-between items-center mb-4">
         <div class="mr-2">
-            <label for="filter" class="text-white mr-2">Filter by:</label>
+            <label for="filter" class="mr-2">Filter by:</label>
             <select id="filter" class="bg-gray-800 text-white border border-gray-700 rounded px-2 py-1">
                 <option value="all">All</option>
                 <option value="top">Top Performers</option>
@@ -11,7 +11,7 @@
             </select>
         </div>
         <div class="ml-2">
-            <label for="sort" class="text-white mr-2">Sort by:</label>
+            <label for="sort" class="mr-2">Sort by:</label>
             <select id="sort" class="bg-gray-800 text-white border border-gray-700 rounded px-2 py-1">
                 <option value="name">Name</option>
                 <option value="points">Points</option>

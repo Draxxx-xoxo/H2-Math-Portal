@@ -1,0 +1,43 @@
+{% include 'partials/header.html' %}
+<body>
+{% include 'partials/nav.html' %}
+<div class="container mx-auto py-8">
+    <h1 class="text-2xl font-bold mb-6">Session Completions</h1>
+    <table class="table-auto w-full bg-gray-700">
+        <thead>
+            <tr class="bg-gray-600">
+                <th class="px-4 py-2">Name</th>
+                <th class="px-4 py-2">CG</th>
+                <th class="px-4 py-2">Session ID</th>
+                <th class="px-4 py-2">Active</th>
+                <th class="px-4 py-2">Completed</th>
+                <th class="px-4 py-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Example Row -->
+            {% for session in sessions %}
+            <tr class="border-t border-gray-600">
+                <td class="px-4 py-2">{{ session.name }}</td>
+                <td class="px-4 py-2">{{ session.cg }}</td>
+                <td class="px-4 py-2">{{ session.session_id }}</td>
+                <td class="px-4 py-2">{{ session.is_active }}</td>
+                <td class="px-4 py-2">{{ session.is_completed }}</td>
+                {% if session.session_id != None %}
+                    <td class="px-4 py-2">
+                        <a href="{{ url_for('quiz.view_quiz_question', session_id=session.session_id, quiz_id=session.quiz_id, question_no='1') }}" 
+                        class="text-blue-400 hover:underline">View Session</a>
+                    </td>
+                {% else %}
+                <td class="px-4 py-2">
+                    <a href="" 
+                       class="text-blue-400 hover:underline">View Session</a>
+                </td>
+                {% endif %}
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% include 'partials/footer.html' %}

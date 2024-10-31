@@ -2,7 +2,6 @@ from flask import Flask, redirect, render_template, session, url_for, flash, jso
 import os
 import requests # type: ignore
 import sentry_sdk # type: ignore
-from datetime import datetime
 from supabase import create_client, Client
 from api.routes.dashboard import dashboard
 from api.routes.auth import auth
@@ -13,6 +12,7 @@ from api.routes.admin import admin
 from api.routes.error import error
 from api.routes.utility import utility
 from api.routes.profile import profile
+from api.routes.attendance import attendance
 
 sentry_sdk.init(
     dsn=os.environ.get('SENTRY_DSN'),
@@ -33,6 +33,7 @@ app.register_blueprint(admin, url_prefix='/admin')
 app.register_blueprint(error)
 app.register_blueprint(utility, url_prefix='/utilities')
 app.register_blueprint(profile)
+app.register_blueprint(attendance, url_prefix='/attendance')
 
 
 url: str = os.environ.get("SUPABASE_URL")
@@ -43,10 +44,9 @@ supabase: Client = create_client(url, key)
 def home():
     return render_template('home.html', title="Home")
 
-@app.route('/grab')
-def grab():
-    return render_template("mathjax.html")
-
+@app.route('/test')
+def test():
+    return render_template('test.html', title="Test")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

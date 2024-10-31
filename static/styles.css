@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
     background-color: black;
     color: white;         
@@ -124,4 +128,6 @@ select {
   display: none;
 }
 
-  
+#deletecode, #overview {
+  display: none;
+}
