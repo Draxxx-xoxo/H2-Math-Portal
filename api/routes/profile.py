@@ -81,3 +81,10 @@ def profile_email():
             flash(f"Error: {e}", "error")
 
     return render_template('profile_update_email.html', title="Profile")
+
+
+@profile.route("/profile/dark-mode", methods=["GET"])
+@authorization_required
+def dark_mode():
+    
+    return render_template('darkmode.html', title="Dark Mode")
